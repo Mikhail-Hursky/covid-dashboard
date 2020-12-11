@@ -1,9 +1,9 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
-const webpack = require('webpack')
-const prod = 'production'
-const dev = 'development'
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
+const prod = 'production';
+const dev = 'development';
 
 module.exports = {
   mode: dev,
@@ -37,7 +37,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: ['babel-loader'],
       },
       {
         test: /\.(ogg|mp3|wav|mpe?g)$/i,
@@ -48,7 +48,8 @@ module.exports = {
         use: [
           {
             loader: 'svg-url-loader',
-          }]
+          },
+        ],
       },
       {
         test: /\.(?:ico|gif|png|svg|jpg|jpeg)$/i,
@@ -59,6 +60,10 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
-    ]
-  }
-}
+      {
+        test: /\.(ttf|woff|woff2)$/,
+        use: ['file-loader'],
+      },
+    ],
+  },
+};
