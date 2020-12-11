@@ -1,0 +1,29 @@
+@import './fonts';
+@import './variables';
+@import './leftCol';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 10px;
+}
+
+body {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.center-col {
+  width: 60%;
+  background: $colorPrimaryLight;
+}
+
+.right-col {
+  width: 35%;
+  background: $colorAccent;
+}

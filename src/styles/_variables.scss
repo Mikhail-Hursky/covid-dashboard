@@ -1,0 +1,21 @@
+$colorLight: #ffffff;
+$colorDark: #615d6c;
+$colorPrimaryLight: #bde0fe;
+$colorPrimary: #a2d2ff;
+$colorAccent: #ffafcc;
+
+@mixin header3() {
+  font-family: 'Lato', sans-serif;
+  font-size: 2rem;
+  line-height: 130%;
+  letter-spacing: 0.06em;
+  color: $colorDark;
+}
+
+@mixin header4() {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.8rem;
+  line-height: 130%;
+  letter-spacing: 0.06em;
+  color: $colorDark;
+}

@@ -1,0 +1,8 @@
+.left-col {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  min-width: 30rem;
+  padding: 2rem 0;
+  background: $colorPrimaryLight;
+}
