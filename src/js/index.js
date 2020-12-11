@@ -18,3 +18,27 @@ async function getTotalCases() {
     throw new Error(e);
   }
 }
+
+function displayCountries(countriesList) {
+  const container = document.createElement('div');
+  container.classList.add('countries-list');
+  countriesList.forEach(elem => {
+    container.insertAdjacentHTML(
+      'beforeend',
+      `<div class="countries-list__item">
+      <div class="countries-list__item__country">
+        <img src="${getCountryFlag(elem.CountryCode)}" alt="" class="country__flag" />
+        <h4 class="country__name">${elem.Country}</h4>
+      </div>
+      <div class="countries-list__item__cases">${elem.TotalConfirmed}</div>
+    </div>`,
+    );
+  });
+  document.querySelector('.left-col').append(container);
+}
+
+getTotalCases().then(data => {
+  const countries = data.Countries;
+  countries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
+  displayCountries(countries);
+});
