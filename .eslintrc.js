@@ -26,7 +26,7 @@ module.exports = {
     'space-before-function-paren': 0, // Несовместимо с prettier
 
     // eslint-disable-next-line max-len
-    'max-len': ['error', 100, 2, {ignoreUrls: true}], // airbnb позволяет некоторые пограничные случаи
+    'max-len': ['error', 100, 2, { ignoreUrls: true }], // airbnb позволяет некоторые пограничные случаи
     'no-console': 'error', // airbnb использует предупреждение
     'no-alert': 'error', // airbnb использует предупреждение
 

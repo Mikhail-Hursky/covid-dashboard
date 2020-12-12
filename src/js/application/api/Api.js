@@ -3,6 +3,7 @@ export default class Api {
     this.covidUrl = 'https://api.covid19api.com/';
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getCountryFlag(countryCode) {
     return `https://www.countryflags.io/${countryCode}/flat/32.png`;
   }
@@ -11,7 +12,7 @@ export default class Api {
     try {
       const response = await fetch(`${this.covidUrl}summary`);
       const data = await response.json();
-      this.data = data;
+      return data;
     } catch (e) {
       throw new Error(e);
     }
