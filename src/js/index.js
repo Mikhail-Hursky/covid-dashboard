@@ -21,6 +21,14 @@ async function getTotalCases() {
   }
 }
 
+function clearSuggestions() {
+  const input = document.querySelector('.search__box');
+  if (input.value !== '') {
+    input.value = '';
+  }
+  document.querySelector('.search__suggestions').innerHTML = '';
+}
+
 function findMatches(value, list) {
   return list.filter(item => {
     const regex = new RegExp(value, 'gi');
@@ -30,12 +38,13 @@ function findMatches(value, list) {
 
 function displayMatches() {
   const matches = findMatches(this.value, countries);
-  console.log(matches);
   const html = matches.map(elem => `<li>${elem.Country}</li>`).join('');
-  const suggestions = document.createElement('ul');
-  suggestions.classList.add('search__suggestions');
-  suggestions.innerHTML = html;
-  document.querySelector('.search').append(suggestions);
+
+  document.querySelector('.search__suggestions').innerHTML = html;
+
+  if (this.value === '') {
+    clearSuggestions();
+  }
 }
 
 function displaySearchBox() {
@@ -48,11 +57,15 @@ function displaySearchBox() {
   input.setAttribute('placeholder', 'Search country...');
 
   input.addEventListener('input', displayMatches);
+  container.addEventListener('mouseleave', clearSuggestions);
 
   const icon = document.createElement('i');
   icon.className = 'fas fa-search search__icon';
 
-  container.append(input, icon);
+  const suggestions = document.createElement('ul');
+  suggestions.classList.add('search__suggestions');
+
+  container.append(input, icon, suggestions);
   document.querySelector('.left-col').append(container);
 }
 
@@ -76,10 +89,9 @@ function displayCountries(countriesList) {
 
 getTotalCases().then(data => {
   displaySearchBox();
+  console.log(data);
   countries.push(...data.Countries);
   console.log(countries);
   countries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
   displayCountries(countries);
-
-  console.log(findMatches('Br', countries));
 });
