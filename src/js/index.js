@@ -1,4 +1,3 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import '../styles/style.css';
 
 export default class Hee {
