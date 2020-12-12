@@ -33,6 +33,46 @@
   background: #bde0fe;
 }
 
+.left-col .search {
+  padding: 1rem;
+  background-color: #a2d2ff;
+  border-radius: 3rem;
+}
+
+.left-col .search__box {
+  width: 0;
+  height: 4rem;
+  font-size: 1.8rem;
+  color: #ffffff;
+  background: none;
+  border: none;
+  outline: none;
+  -webkit-transition: all 0.75s ease-in;
+  transition: all 0.75s ease-in;
+  cursor: pointer;
+}
+
+.left-col .search__icon {
+  position: absolute;
+  padding: 0.7rem;
+  margin-left: 0.8rem;
+  font-size: 2.5rem;
+  color: #ffafcc;
+  border-radius: 50%;
+  -webkit-transition: all 0.25s ease-in;
+  transition: all 0.25s ease-in;
+  cursor: pointer;
+}
+
+.left-col .search:hover > .search__box {
+  width: 85%;
+  padding: 0 1rem;
+}
+
+.left-col .search:hover > .search__icon {
+  background-color: #eee;
+}
+
 .left-col .countries-list {
   display: -ms-grid;
   display: grid;

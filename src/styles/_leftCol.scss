@@ -6,6 +6,44 @@
   padding: 2rem 0;
   background: $colorPrimaryLight;
 
+  & .search {
+    padding: 1rem;
+    background-color: $colorPrimary;
+    border-radius: 3rem;
+
+    &__box {
+      width: 0;
+      height: 4rem;
+      font-size: 1.8rem;
+      color: $colorLight;
+      background: none;
+      border: none;
+      outline: none;
+      transition: all 0.75s ease-in;
+      cursor: pointer;
+    }
+
+    &__icon {
+      position: absolute;
+      padding: 0.7rem;
+      margin-left: 0.8rem;
+      font-size: 2.5rem;
+      color: $colorAccent;
+      border-radius: 50%;
+      transition: all 0.25s ease-in;
+      cursor: pointer;
+    }
+
+    &:hover > .search__box {
+      width: 85%;
+      padding: 0 1rem;
+    }
+
+    &:hover > .search__icon {
+      background-color: #eee;
+    }
+  }
+
   & .countries-list {
     display: grid;
     row-gap: 0.3rem;
