@@ -1,10 +1,8 @@
 import '../styles/style.css';
-
-export default class Hee {
-  init() {}
-}
+import Api from './application/api/Api';
 
 const countries = [];
+const api = new Api();
 
 function getCountryFlag(countryCode) {
   return `https://www.countryflags.io/${countryCode}/flat/32.png`;
@@ -86,6 +84,8 @@ function displayCountries(countriesList) {
   });
   document.querySelector('.left-col').append(container);
 }
+
+api.getTotalCases().then(r => console.log(r));
 
 getTotalCases().then(data => {
   displaySearchBox();
