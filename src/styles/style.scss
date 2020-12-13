@@ -1,6 +1,7 @@
 @import './fonts';
 @import './variables';
 @import './leftCol';
+@import './centerCol';
 
 * {
   padding: 0;
@@ -18,12 +19,8 @@ body {
   height: 100vh;
 }
 
-.center-col {
-  width: 60%;
-  background: $colorPrimaryLight;
-}
-
 .right-col {
   width: 35%;
   background: $colorAccent;
 }
+

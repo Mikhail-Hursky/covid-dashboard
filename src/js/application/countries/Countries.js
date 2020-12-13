@@ -1,20 +1,25 @@
 import BuilderElement from '../utils/BuilderElement';
+import CovidMap from '../covidMap/CovidMap';
 
 export default class Countries {
   constructor(instance, api) {
     this.arrCountries = [];
     this.AppInstance = instance;
     this.api = api;
+    this.container = new BuilderElement('div', 'left-col');
+    this.container.append();
+    this.init();
+    this.AppInstance.covidMap = new CovidMap(instance, api);
     this.api.getTotalCases().then(data => {
       this.dataCountries = data;
-      this.init();
+      this.AppInstance.covidMap.dataCountries = data;
+      this.AppInstance.covidMap.createMap();
+      this.createCountriesListDiv();
     });
   }
 
   init() {
-    this.container = new BuilderElement('div', 'left-col');
     this.createSearchDiv();
-    this.createCountriesListDiv();
   }
 
   createSearchDiv() {
@@ -29,7 +34,6 @@ export default class Countries {
     this.searchDiv.element.addEventListener('mouseleave', this.clearSuggestions);
     this.icon = new BuilderElement('i', 'fas fa-search search__icon');
     this.suggestions = new BuilderElement('ul', 'search__suggestions');
-    this.container.append();
     this.container.appendChi(this.searchDiv);
     this.searchDiv.appendChi(this.input, this.icon, this.suggestions);
   }

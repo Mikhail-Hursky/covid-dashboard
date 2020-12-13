@@ -1,5 +1,6 @@
 import Api from './api/Api';
 import Countries from './countries/Countries';
+import CovidMap from './covidMap/CovidMap';
 
 export default class App {
   constructor() {

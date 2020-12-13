@@ -1,0 +1,14 @@
+.center-col {
+  width: 60%;
+  background: $colorPrimaryLight;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__map {
+    display: block;
+    width: 90%;
+    height: 90vh;
+  }
+
+}
