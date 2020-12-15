@@ -4,7 +4,7 @@ export default class ElementBuilder {
     if (classes) this.element.classList.add(...classes.split(' '));
     if (dataAttr.length) {
       dataAttr.forEach(([attrName, attrValue]) => {
-        if (attrName.match(/value|id|type|placeholder|cols|rows|autocorrect|spellcheck/)) {
+        if (attrName.match(/value|id|type|placeholder|cols|rows|autocorrect|spellcheck|name/)) {
           this.element.setAttribute(attrName, attrValue);
         } else {
           this.element.dataset[attrName] = attrValue;

@@ -8,7 +8,7 @@ export default class Api {
     return `https://www.countryflags.io/${countryCode}/flat/32.png`;
   }
 
-  async getTotalCases() {
+  async getCovidData() {
     try {
       const response = await fetch(`${this.covidUrl}summary`);
       const data = await response.json();
