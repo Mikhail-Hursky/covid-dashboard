@@ -8,55 +8,67 @@ export default class Countries {
     this.api = api;
     this.container = new ElementBuilder('div', 'left-col');
     this.container.appendToBody();
+    this.countriesList = null;
     this.init();
     this.AppInstance.covidMap = new CovidMap(instance, api);
     this.api.getCovidData().then(data => {
       this.dataCountries = data;
+      this.countries.push(...this.dataCountries.Countries);
       this.AppInstance.covidMap.dataCountries = data;
       this.AppInstance.covidMap.createMap();
-      // this.createCountriesList();
+      this.displayCountries(this.countries, 'TotalConfirmed');
     });
   }
 
   init() {
-    // this.createSearchBar();
+    this.createSearchBar();
     this.createSelect();
   }
 
   createSearchBar() {
-    this.searchDiv = new ElementBuilder('div', 'search');
+    const searchDiv = new ElementBuilder('div', 'search');
     this.input = new ElementBuilder('input', 'search__box', [
       'placeholder',
       'Search country...',
       'type',
       'text',
     ]);
-    this.input.element.addEventListener('input', this.displayMatches);
-    this.searchDiv.element.addEventListener('mouseleave', this.clearSuggestions);
-    this.icon = new ElementBuilder('i', 'fas fa-search search__icon');
-    this.suggestions = new ElementBuilder('ul', 'search__suggestions');
-    this.container.append(this.searchDiv);
-    this.searchDiv.append(this.input, this.icon, this.suggestions);
+    const icon = new ElementBuilder('i', 'fas fa-search search__icon');
+
+    this.input.element.addEventListener('input', () => {
+      this.displayMatches(this.input.element.value);
+    });
+
+    searchDiv.append(this.input, icon);
+    this.container.append(searchDiv);
   }
 
-  createCountriesList() {
-    this.countries.push(...this.dataCountries.Countries);
-    this.countries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
+  displayCountries(countries, category) {
+    this.sortList(category);
+
     this.countriesList = new ElementBuilder('div', 'countries-list');
-    const countryElem = new ElementBuilder('div', 'countries-list__item');
-    this.countries.forEach(country => {
-      const countryInfo = new ElementBuilder('div', 'countries-list__item__country');
-      const totalCases = new ElementBuilder('div', 'countries-list__item__data');
+    const countryElement = new ElementBuilder('div', 'countries-list__item');
+
+    countries.forEach(country => {
+      const countryDiv = new ElementBuilder('div', 'countries-list__item__country');
       const flag = new ElementBuilder('img', 'country__flag');
       const countryName = new ElementBuilder('h4', 'country__name');
-      totalCases.element.textContent = country.TotalConfirmed;
       flag.element.src = this.api.getCountryFlag(country.CountryCode);
       countryName.element.textContent = country.Country;
-      countryElem.append(countryInfo, totalCases);
-      countryInfo.append(flag, countryName);
+
+      const data = new ElementBuilder('div', 'countries-list__item__data');
+      data.element.textContent = country[category];
+
+      countryDiv.append(flag, countryName);
+      countryElement.append(countryDiv, data);
     });
-    this.countriesList.append(countryElem);
+
+    this.countriesList.append(countryElement);
     this.container.append(this.countriesList);
+  }
+
+  sortList(category) {
+    this.countries = this.countries.sort((a, b) => b[category] - a[category]);
   }
 
   createSelect() {
@@ -98,12 +110,12 @@ export default class Countries {
     this.container.append(this.menu);
 
     this.menu.element.addEventListener('click', () => {
-      this.changeOption.call(this.menu.element, buttonDiv.element, options);
+      this.changeOption(this.menu.element, buttonDiv.element, options);
     });
   }
 
-  changeOption(container, options) {
-    if (!this.classList.contains('change')) {
+  changeOption(menu, container, options) {
+    if (!menu.classList.contains('change')) {
       const current = container.firstElementChild;
 
       let index = options.findIndex(value => value === current.innerText.toLowerCase());
@@ -114,37 +126,24 @@ export default class Countries {
       next.element.innerText = nextOption;
       container.append(next.element);
 
-      this.classList.add('change');
+      menu.classList.add('change');
 
       setTimeout(() => {
         next.element.classList.remove('next');
-        this.classList.remove('change');
+        menu.classList.remove('change');
         current.remove();
+
+        this.countriesList.remove();
+        this.displayCountries(this.countries, nextOption);
       }, 650);
     }
   }
 
-  displayMatches() {
-    const matches = this.findMatches(this.input.element.textContent, this.arrCountries);
-    const html = matches.map(elem => `<li>${elem.Country}</li>`).join('');
-    this.suggestions.element.innerHTML = html;
-    if (this.input.element.value === '') {
-      this.clearSuggestions();
-    }
-  }
-
-  clearSuggestions() {
-    if (this.input.element.value !== '') {
-      this.input.element.value = '';
-    }
-    this.suggestions.element.innerHTML = '';
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  findMatches(value, list) {
-    return list.filter(item => {
-      const regex = new RegExp(value, 'gi');
-      return item.Country.match(regex);
+  displayMatches(value) {
+    const matches = this.countries.filter(item => {
+      return item.Country.toLowerCase().includes(value.toLowerCase());
     });
+    this.countriesList.remove();
+    this.displayCountries(matches, 'TotalConfirmed');
   }
 }

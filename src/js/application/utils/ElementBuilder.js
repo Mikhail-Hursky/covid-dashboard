@@ -24,4 +24,8 @@ export default class ElementBuilder {
   appendToBody() {
     document.body.append(this.element);
   }
+
+  remove() {
+    this.element.remove();
+  }
 }

@@ -17,4 +17,8 @@ export default class Api {
       throw new Error(e);
     }
   }
+
+  async getAllData() {
+    // Promise.all
+  }
 }

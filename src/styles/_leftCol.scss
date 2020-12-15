@@ -1,22 +1,23 @@
 .left-col {
   display: flex;
   flex-direction: column;
+  row-gap: 2rem;
   width: 25%;
   min-width: 30rem;
-  padding: 2rem 0;
-  background: $colorPrimaryLight;
+  padding: 2rem;
+  background: blue;
 
   & .search {
     position: relative;
     padding: 1rem;
-    background-color: $colorPrimary;
-    border-radius: 3rem;
+    background-color: $colorLight;
+    border-radius: 12px;
 
     &__box {
       width: 0;
       height: 4rem;
       font-size: 1.8rem;
-      color: $colorLight;
+      color: $colorDark;
       background: none;
       border: none;
       outline: none;
@@ -29,53 +30,24 @@
       padding: 0.7rem;
       margin-left: 0.8rem;
       font-size: 2.5rem;
-      color: $colorAccent;
+      color: $colorDark;
       border-radius: 50%;
       transition: all 0.25s ease-in;
       cursor: pointer;
     }
 
-    &__suggestions {
-      position: absolute;
-      top: 6rem;
-      left: 3rem;
-      right: 3rem;
-
-      & li {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-        @include header5();
-        border-bottom: 1px solid $colorPrimaryLight;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
-        list-style: none;
-      }
-
-      & li:nth-child(even) {
-        transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
-        background: linear-gradient(to bottom, #ffffff 0%, #efefef 100%);
-      }
-
-      & li:nth-child(odd) {
-        transform: perspective(100px) rotateX(-3deg) translateY(3px);
-        background: linear-gradient(to top, #ffffff 0%, #efefef 100%);
-      }
-    }
-
     &:hover > .search__box {
-      width: 85%;
+      width: 80%;
       padding: 0 1rem;
     }
 
     &:hover > .search__icon {
-      background-color: #eee;
+      color: $colorAccent;
     }
   }
 
   & .select-menu {
     position: relative;
-    width: 90%;
-    align-self: center;
 
     &__select {
       padding: 8px 36px 8px 10px;
