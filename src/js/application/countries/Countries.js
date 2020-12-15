@@ -1,4 +1,4 @@
-import BuilderElement from '../utils/BuilderElement';
+import ElementBuilder from '../utils/ElementBuilder';
 import CovidMap from '../covidMap/CovidMap';
 
 export default class Countries {
@@ -6,8 +6,8 @@ export default class Countries {
     this.arrCountries = [];
     this.AppInstance = instance;
     this.api = api;
-    this.container = new BuilderElement('div', 'left-col');
-    this.container.append();
+    this.container = new ElementBuilder('div', 'left-col');
+    this.container.appendToBody();
     this.init();
     this.AppInstance.covidMap = new CovidMap(instance, api);
     this.api.getTotalCases().then(data => {
@@ -23,8 +23,8 @@ export default class Countries {
   }
 
   createSearchDiv() {
-    this.searchDiv = new BuilderElement('div', 'search');
-    this.input = new BuilderElement('input', 'search__box', [
+    this.searchDiv = new ElementBuilder('div', 'search');
+    this.input = new ElementBuilder('input', 'search__box', [
       'placeholder',
       'Search country...',
       'type',
@@ -32,30 +32,30 @@ export default class Countries {
     ]);
     this.input.element.addEventListener('input', this.displayMatches);
     this.searchDiv.element.addEventListener('mouseleave', this.clearSuggestions);
-    this.icon = new BuilderElement('i', 'fas fa-search search__icon');
-    this.suggestions = new BuilderElement('ul', 'search__suggestions');
-    this.container.appendChi(this.searchDiv);
-    this.searchDiv.appendChi(this.input, this.icon, this.suggestions);
+    this.icon = new ElementBuilder('i', 'fas fa-search search__icon');
+    this.suggestions = new ElementBuilder('ul', 'search__suggestions');
+    this.container.append(this.searchDiv);
+    this.searchDiv.append(this.input, this.icon, this.suggestions);
   }
 
   createCountriesListDiv() {
     this.arrCountries.push(...this.dataCountries.Countries);
     this.arrCountries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
-    this.countriesListDiv = new BuilderElement('div', 'countries-list');
-    const div = new BuilderElement('div', 'countries-list__item');
+    this.countriesListDiv = new ElementBuilder('div', 'countries-list');
+    const div = new ElementBuilder('div', 'countries-list__item');
     this.arrCountries.forEach(country => {
-      const divCountry = new BuilderElement('div', 'countries-list__item__country');
-      const divCases = new BuilderElement('div', 'countries-list__item__cases');
-      const imgFlag = new BuilderElement('img', 'country__flag');
-      const countryName = new BuilderElement('h4', 'country__name');
+      const divCountry = new ElementBuilder('div', 'countries-list__item__country');
+      const divCases = new ElementBuilder('div', 'countries-list__item__cases');
+      const imgFlag = new ElementBuilder('img', 'country__flag');
+      const countryName = new ElementBuilder('h4', 'country__name');
       divCases.element.textContent = country.TotalConfirmed;
       imgFlag.element.src = this.api.getCountryFlag(country.CountryCode);
       countryName.element.textContent = country.Country;
-      div.appendChi(divCountry, divCases);
-      divCountry.appendChi(imgFlag, countryName);
+      div.append(divCountry, divCases);
+      divCountry.append(imgFlag, countryName);
     });
-    this.countriesListDiv.appendChi(div);
-    this.container.appendChi(this.countriesListDiv);
+    this.countriesListDiv.append(div);
+    this.container.append(this.countriesListDiv);
   }
 
   displayMatches() {

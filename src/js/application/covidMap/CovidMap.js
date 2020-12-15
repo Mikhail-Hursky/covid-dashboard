@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import BuilderElement from '../utils/BuilderElement';
+import ElementBuilder from '../utils/ElementBuilder';
 
 export default class CovidMap {
   constructor(instance, api) {
@@ -9,14 +9,14 @@ export default class CovidMap {
       center: [0, 0],
       zoom: 2,
     };
-    this.container = new BuilderElement('div', 'center-col');
-    this.container.append();
+    this.container = new ElementBuilder('div', 'center-col');
+    this.container.appendToBody();
     this.init();
   }
 
   init() {
-    this.covidMaps = new BuilderElement('div', 'center-col__map');
-    this.container.appendChi(this.covidMaps);
+    this.covidMaps = new ElementBuilder('div', 'center-col__map');
+    this.container.append(this.covidMaps);
   }
 
   createMap() {

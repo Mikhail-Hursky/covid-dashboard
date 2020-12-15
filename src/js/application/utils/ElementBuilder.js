@@ -1,4 +1,4 @@
-export default class BuilderElement {
+export default class ElementBuilder {
   constructor(tagName, classes, ...dataAttr) {
     this.element = document.createElement(tagName);
     if (classes) this.element.classList.add(...classes.split(' '));
@@ -13,15 +13,15 @@ export default class BuilderElement {
     }
   }
 
-  appendChi(...el) {
+  append(...el) {
     if (el.length) {
       el.forEach(x => {
-        this.element.appendChild(x.element);
+        this.element.append(x.element);
       });
     }
   }
 
-  append() {
+  appendToBody() {
     document.body.append(this.element);
   }
 }
