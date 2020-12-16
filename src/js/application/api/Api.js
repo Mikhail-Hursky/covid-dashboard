@@ -15,7 +15,7 @@ export default class Api {
     try {
       const response = await fetch(`${this.covidUrl}summary`, {
         headers: {
-          'X-Access-Token': this.KEY,
+          'X-Access-Token': this.apiKeyCovid,
         },
       });
       const data = await response.json();
