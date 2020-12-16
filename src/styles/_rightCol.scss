@@ -1,0 +1,94 @@
+.right-col {
+  width: 25%;
+  @include flex-col();
+  padding: 2rem;
+  background: $colorLight;
+
+  .title {
+    @include header2();
+    text-transform: uppercase;
+  }
+
+  .controls {
+    @include flex-col();
+    text-align: center;
+
+    .control {
+      position: relative;
+      display: inline-block;
+      padding: 2px;
+      border-radius: 24px;
+      border: 2px solid $colorPrimary;
+
+      input {
+        position: absolute;
+        opacity: 0;
+      }
+
+      label {
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        width: 90px;
+        height: 40px;
+        @include header4();
+        color: $colorPrimary;
+        line-height: 40px;
+        cursor: pointer;
+      }
+
+      .switch {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        height: 40px;
+        width: 90px;
+        background: $colorPrimaryLight;
+        border-radius: 50em;
+        transition: transform 0.5s;
+      }
+    }
+
+    input[type='radio']:checked + label + .switch,
+    input[type='radio']:checked + label:nth-of-type(n) + .switch {
+      transform: translateX(92px);
+    }
+  }
+
+  .cards {
+    @include flex-col();
+
+    .card {
+      min-width: 200px;
+      max-width: 300px;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: $shadow;
+      cursor: pointer;
+      transition: 0.3s all;
+
+      &__value {
+        margin-bottom: 1rem;
+        @include header2();
+        color: $colorLight;
+      }
+
+      &__title {
+        @include header4();
+        color: $colorLight;
+      }
+    }
+
+    .card:first-child {
+      background-color: #3498db;
+    }
+
+    .card:nth-child(2) {
+      background-color: #e74c3c;
+    }
+
+    .card:last-child {
+      background-color: #2ecc71;
+    }
+  }
+}
