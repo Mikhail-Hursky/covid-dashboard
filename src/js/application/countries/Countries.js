@@ -3,82 +3,150 @@ import CovidMap from '../covidMap/CovidMap';
 
 export default class Countries {
   constructor(instance, api) {
-    this.arrCountries = [];
+    this.countries = [];
     this.AppInstance = instance;
     this.api = api;
     this.container = new ElementBuilder('div', 'left-col');
     this.container.appendToBody();
-    this.init();
+    this.countriesList = null;
     this.AppInstance.covidMap = new CovidMap(instance, api);
-    this.api.getTotalCases().then(data => {
+    this.api.getCovidData().then(data => {
       this.dataCountries = data;
+      this.countries.push(...this.dataCountries.Countries);
       this.AppInstance.covidMap.dataCountries = data;
       this.AppInstance.covidMap.createMap();
-      this.createCountriesListDiv();
+      this.displayCountries(this.countries, 'TotalConfirmed');
     });
+    this.init();
   }
 
   init() {
-    this.createSearchDiv();
+    this.createSearchBar();
+    this.createSelect();
   }
 
-  createSearchDiv() {
-    this.searchDiv = new ElementBuilder('div', 'search');
+  createSearchBar() {
+    const searchDiv = new ElementBuilder('div', 'search');
     this.input = new ElementBuilder('input', 'search__box', [
       'placeholder',
       'Search country...',
       'type',
       'text',
     ]);
-    this.input.element.addEventListener('input', this.displayMatches);
-    this.searchDiv.element.addEventListener('mouseleave', this.clearSuggestions);
-    this.icon = new ElementBuilder('i', 'fas fa-search search__icon');
-    this.suggestions = new ElementBuilder('ul', 'search__suggestions');
-    this.container.append(this.searchDiv);
-    this.searchDiv.append(this.input, this.icon, this.suggestions);
+    const icon = new ElementBuilder('i', 'fas fa-search search__icon');
+
+    this.input.element.addEventListener('input', () => {
+      this.displayMatches(this.input.element.value);
+    });
+
+    searchDiv.append(this.input, icon);
+    this.container.append(searchDiv);
   }
 
-  createCountriesListDiv() {
-    this.arrCountries.push(...this.dataCountries.Countries);
-    this.arrCountries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
-    this.countriesListDiv = new ElementBuilder('div', 'countries-list');
-    const div = new ElementBuilder('div', 'countries-list__item');
-    this.arrCountries.forEach(country => {
-      const divCountry = new ElementBuilder('div', 'countries-list__item__country');
-      const divCases = new ElementBuilder('div', 'countries-list__item__cases');
-      const imgFlag = new ElementBuilder('img', 'country__flag');
+  displayCountries(countries, category) {
+    this.sortList(category);
+
+    this.countriesList = new ElementBuilder('div', 'countries-list');
+
+    countries.forEach(country => {
+      const countryElement = new ElementBuilder('div', 'countries-list__item');
+      const countryDiv = new ElementBuilder('div', 'countries-list__item__country');
+
+      const flag = new ElementBuilder('img', 'country__flag');
       const countryName = new ElementBuilder('h4', 'country__name');
-      divCases.element.textContent = country.TotalConfirmed;
-      imgFlag.element.src = this.api.getCountryFlag(country.CountryCode);
+
+      flag.element.src = this.api.getCountryFlag(country.CountryCode);
       countryName.element.textContent = country.Country;
-      div.append(divCountry, divCases);
-      divCountry.append(imgFlag, countryName);
+
+      const data = new ElementBuilder('div', 'countries-list__item__data');
+      data.element.textContent = country[category];
+
+      countryDiv.append(flag, countryName);
+      countryElement.append(countryDiv, data);
+
+      this.countriesList.append(countryElement);
     });
-    this.countriesListDiv.append(div);
-    this.container.append(this.countriesListDiv);
+
+    this.container.append(this.countriesList);
   }
 
-  displayMatches() {
-    const matches = this.findMatches(this.input.element.textContent, this.arrCountries);
-    const html = matches.map(elem => `<li>${elem.Country}</li>`).join('');
-    this.suggestions.element.innerHTML = html;
-    if (this.input.element.value === '') {
-      this.clearSuggestions();
+  sortList(category) {
+    this.countries = this.countries.sort((a, b) => b[category] - a[category]);
+  }
+
+  createSelect() {
+    const options = [
+      'total cases',
+      'total deaths',
+      'total recovered',
+      'new cases',
+      'new deaths',
+      'new recovered',
+      'total cases per 100k',
+      'total deaths per 100k',
+      'total recovered per 100k',
+      'new cases per 100k',
+      'new deaths per 100k',
+      'new recovered per 100k',
+    ];
+
+    this.menu = new ElementBuilder('div', 'select-menu');
+    const select = new ElementBuilder('select', 'select-menu__select');
+
+    options.forEach(option => {
+      const optionElem = new ElementBuilder('option', '', ['value', option]);
+      optionElem.element.innerText = option;
+      select.append(optionElem);
+    });
+
+    const button = new ElementBuilder('button', 'select-menu__button');
+
+    const buttonDiv = new ElementBuilder('div', 'select-menu__button__text-container');
+    const current = new ElementBuilder('span', 'select-menu__button__text');
+    current.element.innerText = options[0];
+
+    const arrow = new ElementBuilder('i', 'fas fa-angle-right select-menu__button__arrow');
+
+    buttonDiv.append(current);
+    button.append(buttonDiv, arrow);
+    this.menu.append(select, button);
+    this.container.append(this.menu);
+
+    this.menu.element.addEventListener('click', () => {
+      this.changeOption(this.menu.element, buttonDiv.element, options);
+    });
+  }
+
+  changeOption(menu, container, options) {
+    if (!menu.classList.contains('change')) {
+      const current = container.firstElementChild;
+
+      let index = options.findIndex(value => value === current.innerText.toLowerCase());
+      index = index < options.length - 1 ? index + 1 : 0;
+
+      const nextOption = options[index];
+      const next = new ElementBuilder('span', 'select-menu__button__text next');
+      next.element.innerText = nextOption;
+      container.append(next.element);
+
+      menu.classList.add('change');
+
+      setTimeout(() => {
+        next.element.classList.remove('next');
+        menu.classList.remove('change');
+        current.remove();
+
+        this.countriesList.remove();
+        this.displayCountries(this.countries, nextOption);
+      }, 650);
     }
   }
 
-  clearSuggestions() {
-    if (this.input.element.value !== '') {
-      this.input.element.value = '';
-    }
-    this.suggestions.element.innerHTML = '';
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  findMatches(value, list) {
-    return list.filter(item => {
-      const regex = new RegExp(value, 'gi');
-      return item.Country.match(regex);
+  displayMatches(value) {
+    const matches = this.countries.filter(item => {
+      return item.Country.toLowerCase().includes(value.toLowerCase());
     });
+    this.countriesList.remove();
+    this.displayCountries(matches, 'TotalConfirmed');
   }
 }
