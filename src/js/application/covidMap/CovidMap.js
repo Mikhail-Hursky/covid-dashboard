@@ -32,6 +32,6 @@ export default class CovidMap {
     };
     const circle = L.circle(circleCenter, 900000, this.circleOptions);
     circle.addTo(this.map);
-    console.log(this.AppInstance.countries.dataCountries);
+    console.log(this.AppInstance.countries.dataCountries.Countries[1]);
   }
 }

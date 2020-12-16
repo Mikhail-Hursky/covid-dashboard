@@ -1,7 +1,9 @@
 export default class Api {
   constructor() {
-    this.covidURL = 'https://api.covid19api.com/';
-    this.KEY = '5cf9dfd5-3449-485e-b5ae-70a60e997864';
+    this.covidUrl = 'https://api.covid19api.com/';
+    this.apiKeyCovid = '5cf9dfd5-3449-485e-b5ae-70a60e997864';
+    this.locationUrl = 'https://api.positionstack.com/v1/forward';
+    this.apiKeyPositionstack = 'e157c7336d0add5ad9ecb1214f2a8d72';
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -11,7 +13,7 @@ export default class Api {
 
   async getCovidData() {
     try {
-      const response = await fetch(`${this.covidURL}summary`, {
+      const response = await fetch(`${this.covidUrl}summary`, {
         headers: {
           'X-Access-Token': this.KEY,
         },
@@ -23,7 +25,6 @@ export default class Api {
     }
   }
 
-  async getAllData() {
-    // Promise.all
-  }
+  // eslint-disable-next-line no-unused-vars
+  async getLatLon(country) {}
 }
