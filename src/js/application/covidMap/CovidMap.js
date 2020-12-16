@@ -2,9 +2,8 @@ import L from 'leaflet';
 import ElementBuilder from '../utils/ElementBuilder';
 
 export default class CovidMap {
-  constructor(instance, api) {
+  constructor(instance) {
     this.AppInstance = instance;
-    this.api = api;
     this.mapOptions = {
       center: [0, 0],
       zoom: 2,
@@ -17,6 +16,7 @@ export default class CovidMap {
   init() {
     this.covidMaps = new ElementBuilder('div', 'center-col__map');
     this.container.append(this.covidMaps);
+    this.createMap();
   }
 
   createMap() {
@@ -32,6 +32,5 @@ export default class CovidMap {
     };
     const circle = L.circle(circleCenter, 900000, this.circleOptions);
     circle.addTo(this.map);
-    console.log(this.AppInstance.countries.dataCountries.Countries[1]);
   }
 }
