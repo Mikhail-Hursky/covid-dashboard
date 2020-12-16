@@ -9,7 +9,6 @@ export default class Countries {
     this.container = new ElementBuilder('div', 'left-col');
     this.container.appendToBody();
     this.countriesList = null;
-    this.init();
     this.AppInstance.covidMap = new CovidMap(instance, api);
     this.api.getCovidData().then(data => {
       this.dataCountries = data;
@@ -18,6 +17,7 @@ export default class Countries {
       this.AppInstance.covidMap.createMap();
       this.displayCountries(this.countries, 'TotalConfirmed');
     });
+    this.init();
   }
 
   init() {
@@ -47,12 +47,14 @@ export default class Countries {
     this.sortList(category);
 
     this.countriesList = new ElementBuilder('div', 'countries-list');
-    const countryElement = new ElementBuilder('div', 'countries-list__item');
 
     countries.forEach(country => {
+      const countryElement = new ElementBuilder('div', 'countries-list__item');
       const countryDiv = new ElementBuilder('div', 'countries-list__item__country');
+
       const flag = new ElementBuilder('img', 'country__flag');
       const countryName = new ElementBuilder('h4', 'country__name');
+
       flag.element.src = this.api.getCountryFlag(country.CountryCode);
       countryName.element.textContent = country.Country;
 
@@ -61,9 +63,10 @@ export default class Countries {
 
       countryDiv.append(flag, countryName);
       countryElement.append(countryDiv, data);
+
+      this.countriesList.append(countryElement);
     });
 
-    this.countriesList.append(countryElement);
     this.container.append(this.countriesList);
   }
 

@@ -5,13 +5,14 @@
   width: 25%;
   min-width: 30rem;
   padding: 2rem;
-  background: blue;
+  background: $colorPrimary;
 
   & .search {
     position: relative;
     padding: 1rem;
     background-color: $colorLight;
     border-radius: 12px;
+    box-shadow: $shadow;
 
     &__box {
       width: 0;
@@ -71,7 +72,7 @@
       background: $colorLight;
       border: none;
       border-radius: 6px;
-      box-shadow: 0 4px 12px $shadow;
+      box-shadow: $shadow;
       cursor: pointer;
       outline: none;
       overflow: hidden;
@@ -171,7 +172,10 @@
     row-gap: 0.3rem;
     width: 100%;
     height: 100%;
-    padding: 0.5rem;
+    padding: 0.8rem 0.5rem;
+    background: $colorLight;
+    border-radius: 12px;
+    box-shadow: $shadow;
     overflow-y: scroll;
 
     &__item {
