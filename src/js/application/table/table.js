@@ -103,7 +103,7 @@ export default class Countries {
       // no default
     }
 
-    this.cardsContainer.element.innerHTML = '';
+    this.cardsContainer.removeChildren();
     this.createCards(this[cardsMap], cases);
   }
 }

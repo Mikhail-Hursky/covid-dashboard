@@ -28,4 +28,8 @@ export default class ElementBuilder {
   remove() {
     this.element.remove();
   }
+
+  removeChildren() {
+    this.element.innerHTML = '';
+  }
 }
