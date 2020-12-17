@@ -3,6 +3,28 @@ import ElementBuilder from '../utils/ElementBuilder';
 export default class Countries {
   constructor(instance, api) {
     this.global = {};
+    this.totalCases = new Map([
+      ['total cases', 'TotalConfirmed'],
+      ['total deaths', 'TotalDeaths'],
+      ['total recovered', 'TotalRecovered'],
+    ]);
+    this.newCases = new Map([
+      ['new cases', 'NewConfirmed'],
+      ['new deaths', 'NewDeaths'],
+      ['new recovered', 'NewRecovered'],
+    ]);
+    this.totalCasesPer100k = new Map([
+      ['total cases per 100k'],
+      ['total deaths per 100k'],
+      ['total recovered per 100k'],
+    ]);
+    this.newCasesPer100k = new Map([
+      ['new cases per 100k'],
+      ['new deaths per 100k'],
+      ['new recovered per 100k'],
+    ]);
+    this.isNewCases = false;
+    this.isPer100k = false;
     this.AppInstance = instance;
     this.api = api;
     this.container = new ElementBuilder('div', 'right-col');
@@ -24,51 +46,64 @@ export default class Countries {
       'afterbegin',
       `
         <div class="control">
-          <input type="radio" name="period" value="total" id="total" checked />
+          <input type="radio" name="period" value="totalCases" id="total" checked />
           <label for="total">Total</label>
-          <input type="radio" name="period" value="new" id="newly" />
+          <input type="radio" name="period" value="newCases" id="newly" />
           <label for="newly">Newly</label>
           <span class="switch"></span>
         </div>
         <div class="control">
-          <input type="radio" name="values" value="absolute" id="absolute" checked />
+          <input type="radio" name="values" value="Cases" id="absolute" checked />
           <label for="absolute">Absolute</label>
-          <input type="radio" name="values" value="per100k" id="per100k" />
+          <input type="radio" name="values" value="CasesPer100k" id="per100k" />
           <label for="per100k">Per 100k</label>
           <span class="switch"></span>
         </div>
     `,
     );
 
-    this.cards = [
-      {
-        title: 'Total cases',
-        value: this.global.TotalConfirmed,
-      },
-      {
-        title: 'Total deaths',
-        value: this.global.TotalDeaths,
-      },
-      {
-        title: 'Total recovered',
-        value: this.global.TotalRecovered,
-      },
-    ];
+    controls.element.addEventListener('change', event => {
+      this.modifyTable(event.target.value);
+    });
 
-    this.cards.forEach(card => this.createCard(card));
+    this.createCards(this.totalCases, this.global);
 
     this.container.append(this.tableTitle, controls, this.cardsContainer);
   }
 
-  createCard(card) {
-    const cardElement = new ElementBuilder('div', 'card');
-    cardElement.element.insertAdjacentHTML(
-      'afterbegin',
-      `
-    <h3 class="card__value">${card.value}</h3>
-    <p class="card__title">${card.title}</p>
-    `,
-    );
-    this.cardsContainer.append(cardElement);
+  createCards(cardsMap, data) {
+    cardsMap.forEach((value, key) => {
+      const cardElement = new ElementBuilder('div', 'card');
+      cardElement.element.insertAdjacentHTML(
+        'afterbegin',
+        `
+        <h3 class="card__value">${data[value]}</h3>
+        <p class="card__title">${key}</p>
+        `,
+      );
+      this.cardsContainer.append(cardElement);
+    });
+  }
+
+  modifyTable(attr) {
+    let cardsMap;
+    const cases = this.global;
+
+    switch (attr) {
+      case 'totalCases':
+      case 'newCases':
+        this.isNewCases = !this.isNewCases;
+        cardsMap = this.isPer100k ? `${attr}Per100k` : attr;
+        break;
+      case 'Cases':
+      case 'CasesPer100k':
+        this.isPer100k = !this.isPer100k;
+        cardsMap = this.isNewCases ? `new${attr}` : `total${attr}`;
+        break;
+      // no default
+    }
+
+    this.cardsContainer.element.innerHTML = '';
+    this.createCards(this[cardsMap], cases);
   }
 }
