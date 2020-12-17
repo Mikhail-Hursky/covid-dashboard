@@ -30,11 +30,11 @@ export default class Countries {
     const submitBtn = new ElementBuilder('button', 'search__submit', ['type', 'submit']);
     const icon = new ElementBuilder('i', 'fas fa-search search__icon');
 
-    input.element.addEventListener('input', () => {
+    input.on('input', () => {
       this.displayMatches(input.element.value);
     });
 
-    search.element.addEventListener('submit', e => {
+    search.on('submit', e => {
       e.preventDefault();
       const selectedCountry = e.target.children[0].value;
       console.log(selectedCountry);
@@ -114,7 +114,7 @@ export default class Countries {
     this.menu.append(select, button);
     this.container.append(this.menu);
 
-    this.menu.element.addEventListener('click', () => {
+    this.menu.on('click', () => {
       this.changeOption(this.menu.element, buttonDiv.element, options);
     });
   }

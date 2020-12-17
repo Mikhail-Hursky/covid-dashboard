@@ -32,4 +32,8 @@ export default class ElementBuilder {
   removeChildren() {
     this.element.innerHTML = '';
   }
+
+  on(event, callback) {
+    this.element.addEventListener(event, callback);
+  }
 }
