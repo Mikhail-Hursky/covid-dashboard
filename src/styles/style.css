@@ -338,6 +338,7 @@
 .left-col .countries-list__item {
   padding: 0.3rem;
   background: #ffffff;
+  cursor: pointer;
 }
 
 .left-col .countries-list__item__country {

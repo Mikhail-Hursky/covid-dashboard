@@ -17,6 +17,15 @@ export default class Countries {
     this.createSearchBar();
     this.createSelect();
     this.displayCountries(this.countries, 'TotalConfirmed');
+
+    this.countriesList.on('click', e => {
+      const countryElem = e.target.closest('.countries-list__item');
+
+      if (!countryElem) return;
+
+      const selectedCountry = countryElem.children[0].children[1].innerText;
+      console.log(selectedCountry);
+    });
   }
 
   createSearchBar() {
