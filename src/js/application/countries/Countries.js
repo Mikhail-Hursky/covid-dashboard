@@ -31,7 +31,13 @@ export default class Countries {
     const icon = new ElementBuilder('i', 'fas fa-search search__icon');
 
     input.element.addEventListener('input', () => {
-      this.displayMatches(this.input.element.value);
+      this.displayMatches(input.element.value);
+    });
+
+    search.element.addEventListener('submit', e => {
+      e.preventDefault();
+      const selectedCountry = e.target.children[0].value;
+      console.log(selectedCountry);
     });
 
     submitBtn.append(icon);

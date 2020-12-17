@@ -13,11 +13,13 @@ export default class Api {
 
   async getCovidData() {
     try {
-      const response = await fetch(`${this.covidUrl}summary`, {
+      const response = await fetch(
+        `${this.covidUrl}summary`,
+      ); /* , {
         headers: {
           'X-Access-Token': this.apiKeyCovid,
         },
-      });
+      }); */
       const data = await response.json();
       return data;
     } catch (e) {
