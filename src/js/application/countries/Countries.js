@@ -1,28 +1,22 @@
 import ElementBuilder from '../utils/ElementBuilder';
-import CovidMap from '../covidMap/CovidMap';
 
 export default class Countries {
   constructor(instance, api) {
     this.countries = [];
     this.AppInstance = instance;
     this.api = api;
+    this.dataCountries = this.AppInstance.dataCountries;
     this.container = new ElementBuilder('div', 'left-col');
     this.container.appendToBody();
     this.countriesList = null;
-    this.AppInstance.covidMap = new CovidMap(instance, api);
-    this.api.getCovidData().then(data => {
-      this.dataCountries = data;
-      this.countries.push(...this.dataCountries.Countries);
-      this.AppInstance.covidMap.dataCountries = data;
-      this.AppInstance.covidMap.createMap();
-      this.displayCountries(this.countries, 'TotalConfirmed');
-    });
+    this.countries.push(...this.dataCountries.Countries);
     this.init();
   }
 
   init() {
     this.createSearchBar();
     this.createSelect();
+    this.displayCountries(this.countries, 'TotalConfirmed');
   }
 
   createSearchBar() {

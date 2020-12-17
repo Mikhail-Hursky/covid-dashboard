@@ -24,7 +24,4 @@ export default class Api {
       throw new Error(e);
     }
   }
-
-  // eslint-disable-next-line no-unused-vars
-  async getLatLon(country) {}
 }

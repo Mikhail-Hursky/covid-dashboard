@@ -1,0 +1,12 @@
+.preload {
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #000000;
+  height: 100vh;
+  z-index: 3;
+}
