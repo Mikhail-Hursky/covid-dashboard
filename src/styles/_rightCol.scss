@@ -57,10 +57,11 @@
 
   .cards {
     @include flex-col();
+    align-items: stretch;
+    min-width: 200px;
+    max-width: 400px;
 
     .card {
-      min-width: 200px;
-      max-width: 300px;
       padding: 1.5rem;
       border-radius: 12px;
       box-shadow: $shadow;
@@ -76,19 +77,20 @@
       &__title {
         @include header4();
         color: $colorLight;
+        text-transform: capitalize;
       }
     }
 
     .card:first-child {
-      background-color: #3498db;
+      background-color: $blue;
     }
 
     .card:nth-child(2) {
-      background-color: #e74c3c;
+      background-color: $red;
     }
 
     .card:last-child {
-      background-color: #2ecc71;
+      background-color: $green;
     }
   }
 }
