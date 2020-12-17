@@ -20,21 +20,23 @@ export default class Countries {
   }
 
   createSearchBar() {
-    const searchDiv = new ElementBuilder('div', 'search');
-    this.input = new ElementBuilder('input', 'search__box', [
+    const search = new ElementBuilder('form', 'search');
+    const input = new ElementBuilder('input', 'search__box', [
       'placeholder',
       'Search country...',
       'type',
       'text',
     ]);
+    const submitBtn = new ElementBuilder('button', 'search__submit', ['type', 'submit']);
     const icon = new ElementBuilder('i', 'fas fa-search search__icon');
 
-    this.input.element.addEventListener('input', () => {
+    input.element.addEventListener('input', () => {
       this.displayMatches(this.input.element.value);
     });
 
-    searchDiv.append(this.input, icon);
-    this.container.append(searchDiv);
+    submitBtn.append(icon);
+    search.append(input, submitBtn);
+    this.container.append(search);
   }
 
   displayCountries(countries, category) {

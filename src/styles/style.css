@@ -1,3 +1,22 @@
+.preload {
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  background-color: #000000;
+  height: 100vh;
+  z-index: 3;
+}
+
 @font-face {
   font-family: 'Lato';
   src: url("../assets/fonts/Lato-Light.ttf") format("truetype");
@@ -35,8 +54,10 @@
 }
 
 .left-col .search {
-  position: relative;
-  padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0.7rem;
   background-color: #ffffff;
   border-radius: 12px;
   -webkit-box-shadow: 0 4px 12px rgba(18, 22, 33, 0.2);
@@ -56,25 +77,30 @@
   cursor: pointer;
 }
 
-.left-col .search__icon {
-  position: absolute;
-  padding: 0.7rem;
+.left-col .search__submit {
+  padding: 0.6em;
   margin-left: 0.8rem;
-  font-size: 2.5rem;
-  color: #615d6c;
+  background: #00509d;
+  border: none;
   border-radius: 50%;
+  outline: none;
   -webkit-transition: all 0.25s ease-in;
   transition: all 0.25s ease-in;
   cursor: pointer;
 }
 
+.left-col .search__icon {
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
 .left-col .search:hover > .search__box {
-  width: 80%;
+  width: 77%;
   padding: 0 1rem;
 }
 
-.left-col .search:hover > .search__icon {
-  color: #fdc500;
+.left-col .search:hover > .search__submit {
+  background: #fdc500;
 }
 
 .left-col .select-menu {
@@ -341,6 +367,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  z-index: 2;
 }
 
 .center-col__map {

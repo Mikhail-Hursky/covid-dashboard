@@ -7,9 +7,9 @@
   padding: 2rem;
   background: $colorPrimary;
 
-  & .search {
-    position: relative;
-    padding: 1rem;
+  .search {
+    display: flex;
+    padding: 0.7rem;
     background-color: $colorLight;
     border-radius: 12px;
     box-shadow: $shadow;
@@ -26,28 +26,33 @@
       cursor: pointer;
     }
 
-    &__icon {
-      position: absolute;
-      padding: 0.7rem;
+    &__submit {
+      padding: 0.6em;
       margin-left: 0.8rem;
-      font-size: 2.5rem;
-      color: $colorDark;
+      background: $colorPrimary;
+      border: none;
       border-radius: 50%;
+      outline: none;
       transition: all 0.25s ease-in;
       cursor: pointer;
     }
 
+    &__icon {
+      font-size: 2.5rem;
+      color: $colorLight;
+    }
+
     &:hover > .search__box {
-      width: 80%;
+      width: 77%;
       padding: 0 1rem;
     }
 
-    &:hover > .search__icon {
-      color: $colorAccent;
+    &:hover > .search__submit {
+      background: $colorAccent;
     }
   }
 
-  & .select-menu {
+  .select-menu {
     position: relative;
 
     &__select {
@@ -167,7 +172,7 @@
     }
   }
 
-  & .countries-list {
+  .countries-list {
     display: grid;
     row-gap: 0.3rem;
     width: 100%;
