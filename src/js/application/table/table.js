@@ -1,5 +1,9 @@
 import ElementBuilder from '../utils/ElementBuilder';
 
+function numberWithCommas(n) {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 export default class Countries {
   constructor(instance, api) {
     this.global = {};
@@ -27,8 +31,6 @@ export default class Countries {
     this.isPer100k = false;
     this.AppInstance = instance;
     this.api = api;
-    this.container = new ElementBuilder('div', 'right-col');
-    this.container.appendToBody();
     this.cardsContainer = new ElementBuilder('div', 'cards');
     this.api.getCovidData().then(data => {
       this.global = data.Global;
@@ -37,6 +39,8 @@ export default class Countries {
   }
 
   init() {
+    const tableContainer = new ElementBuilder('div', 'right-col');
+
     this.tableTitle = new ElementBuilder('div', 'title');
     this.tableTitle.element.innerText = 'Global';
 
@@ -68,7 +72,8 @@ export default class Countries {
 
     this.createCards(this.totalCases, this.global);
 
-    this.container.append(this.tableTitle, controls, this.cardsContainer);
+    tableContainer.append(this.tableTitle, controls, this.cardsContainer);
+    tableContainer.appendToBody();
   }
 
   createCards(cardsMap, data) {
@@ -77,7 +82,7 @@ export default class Countries {
       cardElement.element.insertAdjacentHTML(
         'afterbegin',
         `
-        <h3 class="card__value">${data[value]}</h3>
+        <h3 class="card__value">${numberWithCommas(data[value])}</h3>
         <p class="card__title">${key}</p>
         `,
       );
