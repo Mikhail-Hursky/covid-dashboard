@@ -1,4 +1,5 @@
 import ElementBuilder from '../utils/ElementBuilder';
+import numberWithCommas from '../utils/Numbers';
 
 export default class Countries {
   constructor(instance, api) {
@@ -84,7 +85,7 @@ export default class Countries {
       countryName.element.textContent = country.Country;
 
       const data = new ElementBuilder('div', 'countries-list__item__data');
-      data.element.textContent = country[category];
+      data.element.textContent = numberWithCommas(country[category]);
 
       countryDiv.append(flag, countryName);
       countryElement.append(countryDiv, data);
