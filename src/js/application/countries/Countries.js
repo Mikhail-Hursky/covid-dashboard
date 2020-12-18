@@ -3,6 +3,20 @@ import ElementBuilder from '../utils/ElementBuilder';
 export default class Countries {
   constructor(instance, api) {
     this.countries = [];
+    this.params = new Map([
+      ['total cases', 'TotalConfirmed'],
+      ['total deaths', 'TotalDeaths'],
+      ['total recovered', 'TotalRecovered'],
+      ['new cases', 'NewConfirmed'],
+      ['new deaths', 'NewDeaths'],
+      ['new recovered', 'NewRecovered'],
+      ['total cases per 100k'],
+      ['total deaths per 100k'],
+      ['total recovered per 100k'],
+      ['new cases per 100k'],
+      ['new deaths per 100k'],
+      ['new recovered per 100k'],
+    ]);
     this.AppInstance = instance;
     this.api = api;
     this.dataCountries = this.AppInstance.dataCountries;
@@ -86,50 +100,32 @@ export default class Countries {
   }
 
   createSelect() {
-    const options = [
-      'total cases',
-      'total deaths',
-      'total recovered',
-      'new cases',
-      'new deaths',
-      'new recovered',
-      'total cases per 100k',
-      'total deaths per 100k',
-      'total recovered per 100k',
-      'new cases per 100k',
-      'new deaths per 100k',
-      'new recovered per 100k',
-    ];
+    const options = [...this.params.keys()];
 
-    this.menu = new ElementBuilder('div', 'select-menu');
+    const menu = new ElementBuilder('div', 'select-menu');
+
     const select = new ElementBuilder('select', 'select-menu__select');
-
-    options.forEach(option => {
-      const optionElem = new ElementBuilder('option', '', ['value', option]);
-      optionElem.element.innerText = option;
-      select.append(optionElem);
-    });
-
     const button = new ElementBuilder('button', 'select-menu__button');
 
-    const buttonDiv = new ElementBuilder('div', 'select-menu__button__text-container');
+    const buttonTextDiv = new ElementBuilder('div', 'select-menu__button__text-container');
     const current = new ElementBuilder('span', 'select-menu__button__text');
     current.element.innerText = options[0];
 
     const arrow = new ElementBuilder('i', 'fas fa-angle-right select-menu__button__arrow');
 
-    buttonDiv.append(current);
-    button.append(buttonDiv, arrow);
-    this.menu.append(select, button);
-    this.container.append(this.menu);
+    buttonTextDiv.append(current);
+    button.append(buttonTextDiv, arrow);
+    menu.append(select, button);
+    this.container.append(menu);
 
-    this.menu.on('click', () => {
-      this.changeOption(this.menu.element, buttonDiv.element, options);
+    menu.on('click', () => {
+      this.changeOption(menu.element, buttonTextDiv.element, options);
     });
   }
 
   changeOption(menu, container, options) {
     if (!menu.classList.contains('change')) {
+      const values = [...this.params.values()];
       const current = container.firstElementChild;
 
       let index = options.findIndex(value => value === current.innerText.toLowerCase());
@@ -148,7 +144,7 @@ export default class Countries {
         current.remove();
 
         this.countriesList.remove();
-        this.displayCountries(this.countries, nextOption);
+        this.displayCountries(this.countries, values[index]);
       }, 650);
     }
   }
