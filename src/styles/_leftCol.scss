@@ -15,7 +15,7 @@
     box-shadow: $shadow;
 
     &__box {
-      width: 79%;
+      width: 100%;
       height: 4rem;
       font-size: 1.8rem;
       color: $colorDark;
@@ -29,21 +29,21 @@
     &__submit {
       padding: 0.6em;
       margin-left: 0.8rem;
-      background: $colorPrimary;
+      background: $colorLight;
       border: none;
       border-radius: 50%;
       outline: none;
       transition: all 0.25s ease-in;
       cursor: pointer;
+
+      &:hover {
+        background: $colorPrimaryLight;
+      }
     }
 
     &__icon {
       font-size: 2.5rem;
-      color: $colorLight;
-    }
-
-    &:hover > .search__submit {
-      background: $colorAccent;
+      color: $colorPrimary;
     }
   }
 
@@ -116,55 +116,6 @@
         }
       }
     }
-
-    @keyframes bounce {
-      20% {
-        transform: translateX(0);
-      }
-      50% {
-        transform: translateX(2px);
-        box-shadow: 0 8px 12px $shadow;
-      }
-    }
-
-    @keyframes button {
-      40% {
-        transform: translateX(104%);
-      }
-      75% {
-        transform: translateX(99%);
-      }
-      100% {
-        transform: translateX(100%);
-      }
-    }
-
-    @keyframes arrow {
-      20% {
-        transform: translateX($selectWidth);
-        filter: blur(0.5px);
-        opacity: 1;
-      }
-      21% {
-        transform: translateX($selectWidth);
-        opacity: 0;
-      }
-      22% {
-        transform: translateX(calc($selectWidth * -1));
-        opacity: 0;
-      }
-      23% {
-        transform: translateX(calc($selectWidth * -1));
-        opacity: 1;
-      }
-      50% {
-        transform: translateX(4px);
-        filter: blur(0);
-      }
-      100% {
-        transform: translateX(0);
-      }
-    }
   }
 
   .countries-list {
@@ -195,8 +146,68 @@
       &__data {
         @include header3();
         text-align: right;
-        color: $colorAccent;
+
+        &.red {
+          color: $red;
+        }
+
+        &.green {
+          color: $green;
+        }
+
+        &.blue {
+          color: $blue;
+        }
       }
     }
+  }
+}
+
+@keyframes bounce {
+  20% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+    box-shadow: 0 8px 12px $shadow;
+  }
+}
+
+@keyframes button {
+  40% {
+    transform: translateX(104%);
+  }
+  75% {
+    transform: translateX(99%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes arrow {
+  20% {
+    transform: translateX($selectWidth);
+    filter: blur(0.5px);
+    opacity: 1;
+  }
+  21% {
+    transform: translateX($selectWidth);
+    opacity: 0;
+  }
+  22% {
+    transform: translateX(calc($selectWidth * -1));
+    opacity: 0;
+  }
+  23% {
+    transform: translateX(calc($selectWidth * -1));
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(4px);
+    filter: blur(0);
+  }
+  100% {
+    transform: translateX(0);
   }
 }

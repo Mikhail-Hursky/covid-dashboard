@@ -70,6 +70,8 @@ export default class Countries {
   }
 
   displayCountries(countries, category) {
+    const color = this.chooseColor(category);
+
     this.sortList(category);
 
     this.countriesList = new ElementBuilder('div', 'countries-list');
@@ -85,6 +87,7 @@ export default class Countries {
       countryName.element.textContent = country.Country;
 
       const data = new ElementBuilder('div', 'countries-list__item__data');
+      data.element.classList.add(color);
       data.element.textContent = numberWithCommas(country[category]);
 
       countryDiv.append(flag, countryName);
@@ -98,6 +101,17 @@ export default class Countries {
 
   sortList(category) {
     this.countries = this.countries.sort((a, b) => b[category] - a[category]);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  chooseColor(category) {
+    if (category.includes('Confirmed')) {
+      return 'blue';
+    }
+    if (category.includes('Deaths')) {
+      return 'red';
+    }
+    return 'green';
   }
 
   createSelect() {
