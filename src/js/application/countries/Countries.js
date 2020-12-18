@@ -4,6 +4,7 @@ import numberWithCommas from '../utils/Numbers';
 export default class Countries {
   constructor(instance, api) {
     this.countries = [];
+    this.matches = null;
     this.params = new Map([
       ['total cases', 'TotalConfirmed'],
       ['total deaths', 'TotalDeaths'],
@@ -26,6 +27,12 @@ export default class Countries {
     this.dataCountries = this.AppInstance.dataCountries;
     this.container = new ElementBuilder('div', 'left-col');
     this.countriesList = new ElementBuilder('div', 'countries-list');
+    this.input = new ElementBuilder('input', 'search__box', [
+      'placeholder',
+      'Search country...',
+      'type',
+      'text',
+    ]);
     this.countries.push(...this.dataCountries.Countries);
     this.init();
   }
@@ -43,23 +50,19 @@ export default class Countries {
       if (!countryElem) return;
 
       const selectedCountry = countryElem.children[0].children[1].innerText;
+
+      this.input.element.value = selectedCountry;
       console.log(selectedCountry);
     });
   }
 
   createSearchBar() {
     const search = new ElementBuilder('form', 'search');
-    const input = new ElementBuilder('input', 'search__box', [
-      'placeholder',
-      'Search country...',
-      'type',
-      'text',
-    ]);
     const submitBtn = new ElementBuilder('button', 'search__submit', ['type', 'submit']);
     const icon = new ElementBuilder('i', 'fas fa-search search__icon');
 
-    input.on('input', () => {
-      this.displayMatches(input.element.value);
+    this.input.on('input', () => {
+      this.displayMatches();
     });
 
     search.on('submit', e => {
@@ -69,7 +72,7 @@ export default class Countries {
     });
 
     submitBtn.append(icon);
-    search.append(input, submitBtn);
+    search.append(this.input, submitBtn);
     this.container.append(search);
   }
 
@@ -97,7 +100,7 @@ export default class Countries {
 
   displayCountries(countries) {
     const color = this.chooseColor();
-    console.log('current cat', this.currentCategory);
+
     this.sortList(countries);
 
     countries.forEach(country => {
@@ -163,16 +166,22 @@ export default class Countries {
         current.remove();
 
         this.countriesList.removeChildren();
-        this.displayCountries(this.countries);
+
+        if (this.input.element.value) {
+          this.displayCountries(this.matches);
+        } else {
+          this.displayCountries(this.countries);
+        }
       }, 650);
     }
   }
 
-  displayMatches(value) {
-    const matches = this.countries.filter(item => {
+  displayMatches() {
+    const { value } = this.input.element;
+    this.matches = this.countries.filter(item => {
       return item.Country.toLowerCase().includes(value.toLowerCase());
     });
     this.countriesList.removeChildren();
-    this.displayCountries(matches);
+    this.displayCountries(this.matches);
   }
 }
