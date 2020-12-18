@@ -1,6 +1,6 @@
 import Api from './api/Api';
 import Countries from './countries/Countries';
-import Table from './table/table';
+import Table from './table/Table';
 import CovidMap from './covidMap/CovidMap';
 import Preload from './preload/Preload';
 

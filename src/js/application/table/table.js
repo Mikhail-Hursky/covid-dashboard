@@ -1,7 +1,7 @@
 import ElementBuilder from '../utils/ElementBuilder';
 import numberWithCommas from '../utils/Numbers';
 
-export default class Countries {
+export default class Table {
   constructor(instance, api) {
     this.global = {};
     this.totalCases = new Map([
