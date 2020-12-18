@@ -11,27 +11,31 @@ export default class Countries {
       ['new cases', 'NewConfirmed'],
       ['new deaths', 'NewDeaths'],
       ['new recovered', 'NewRecovered'],
-      ['total cases per 100k'],
-      ['total deaths per 100k'],
-      ['total recovered per 100k'],
-      ['new cases per 100k'],
-      ['new deaths per 100k'],
-      ['new recovered per 100k'],
+      ['total cases per 100k', 'TotalConfirmed'],
+      ['total deaths per 100k', 'TotalDeaths'],
+      ['total recovered per 100k', 'TotalRecovered'],
+      ['new cases per 100k', 'NewConfirmed'],
+      ['new deaths per 100k', 'NewDeaths'],
+      ['new recovered per 100k', 'NewRecovered'],
     ]);
+    this.keys = [...this.params.keys()];
+    this.currentIndex = 0;
+    this.currentCategory = this.params.get(this.keys[this.currentIndex]);
     this.AppInstance = instance;
     this.api = api;
     this.dataCountries = this.AppInstance.dataCountries;
     this.container = new ElementBuilder('div', 'left-col');
-    this.container.appendToBody();
-    this.countriesList = null;
+    this.countriesList = new ElementBuilder('div', 'countries-list');
     this.countries.push(...this.dataCountries.Countries);
     this.init();
   }
 
   init() {
+    this.container.appendToBody();
     this.createSearchBar();
     this.createSelect();
-    this.displayCountries(this.countries, 'TotalConfirmed');
+    this.displayCountries(this.countries);
+    this.container.append(this.countriesList);
 
     this.countriesList.on('click', e => {
       const countryElem = e.target.closest('.countries-list__item');
@@ -69,12 +73,32 @@ export default class Countries {
     this.container.append(search);
   }
 
-  displayCountries(countries, category) {
-    const color = this.chooseColor(category);
+  createSelect() {
+    const menu = new ElementBuilder('div', 'select-menu');
 
-    this.sortList(category);
+    const select = new ElementBuilder('select', 'select-menu__select');
+    const button = new ElementBuilder('button', 'select-menu__button');
 
-    this.countriesList = new ElementBuilder('div', 'countries-list');
+    const buttonTextDiv = new ElementBuilder('div', 'select-menu__button__text-container');
+    const current = new ElementBuilder('span', 'select-menu__button__text');
+    current.element.innerText = this.keys[this.currentIndex];
+
+    const arrow = new ElementBuilder('i', 'fas fa-angle-right select-menu__button__arrow');
+
+    buttonTextDiv.append(current);
+    button.append(buttonTextDiv, arrow);
+    menu.append(select, button);
+    this.container.append(menu);
+
+    menu.on('click', () => {
+      this.changeOption(menu.element, buttonTextDiv.element);
+    });
+  }
+
+  displayCountries(countries) {
+    const color = this.chooseColor();
+    console.log('current cat', this.currentCategory);
+    this.sortList(countries);
 
     countries.forEach(country => {
       const countryElement = new ElementBuilder('div', 'countries-list__item');
@@ -88,65 +112,45 @@ export default class Countries {
 
       const data = new ElementBuilder('div', 'countries-list__item__data');
       data.element.classList.add(color);
-      data.element.textContent = numberWithCommas(country[category]);
+
+      let numOfCases = country[this.currentCategory];
+      if (this.currentIndex >= this.keys.length / 2) {
+        const population = country.Premium.CountryStats.Population;
+        numOfCases = Math.round((numOfCases / population) * 100000);
+      }
+      data.element.textContent = numberWithCommas(numOfCases);
 
       countryDiv.append(flag, countryName);
       countryElement.append(countryDiv, data);
 
       this.countriesList.append(countryElement);
     });
-
-    this.container.append(this.countriesList);
   }
 
-  sortList(category) {
-    this.countries = this.countries.sort((a, b) => b[category] - a[category]);
+  sortList(countries) {
+    return countries.sort((a, b) => b[this.currentCategory] - a[this.currentCategory]);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  chooseColor(category) {
-    if (category.includes('Confirmed')) {
+  chooseColor() {
+    if (this.currentCategory.includes('Confirmed')) {
       return 'blue';
     }
-    if (category.includes('Deaths')) {
+    if (this.currentCategory.includes('Deaths')) {
       return 'red';
     }
     return 'green';
   }
 
-  createSelect() {
-    const options = [...this.params.keys()];
-
-    const menu = new ElementBuilder('div', 'select-menu');
-
-    const select = new ElementBuilder('select', 'select-menu__select');
-    const button = new ElementBuilder('button', 'select-menu__button');
-
-    const buttonTextDiv = new ElementBuilder('div', 'select-menu__button__text-container');
-    const current = new ElementBuilder('span', 'select-menu__button__text');
-    current.element.innerText = options[0];
-
-    const arrow = new ElementBuilder('i', 'fas fa-angle-right select-menu__button__arrow');
-
-    buttonTextDiv.append(current);
-    button.append(buttonTextDiv, arrow);
-    menu.append(select, button);
-    this.container.append(menu);
-
-    menu.on('click', () => {
-      this.changeOption(menu.element, buttonTextDiv.element, options);
-    });
-  }
-
-  changeOption(menu, container, options) {
+  changeOption(menu, container) {
     if (!menu.classList.contains('change')) {
-      const values = [...this.params.values()];
       const current = container.firstElementChild;
 
-      let index = options.findIndex(value => value === current.innerText.toLowerCase());
-      index = index < options.length - 1 ? index + 1 : 0;
+      let index = this.keys.findIndex(value => value === current.innerText.toLowerCase());
+      index = index < this.keys.length - 1 ? index + 1 : 0;
+      this.currentIndex = index;
+      this.currentCategory = this.params.get(this.keys[this.currentIndex]);
 
-      const nextOption = options[index];
+      const nextOption = this.keys[index];
       const next = new ElementBuilder('span', 'select-menu__button__text next');
       next.element.innerText = nextOption;
       container.append(next.element);
@@ -158,8 +162,8 @@ export default class Countries {
         menu.classList.remove('change');
         current.remove();
 
-        this.countriesList.remove();
-        this.displayCountries(this.countries, values[index]);
+        this.countriesList.removeChildren();
+        this.displayCountries(this.countries);
       }, 650);
     }
   }
@@ -168,7 +172,7 @@ export default class Countries {
     const matches = this.countries.filter(item => {
       return item.Country.toLowerCase().includes(value.toLowerCase());
     });
-    this.countriesList.remove();
-    this.displayCountries(matches, 'TotalConfirmed');
+    this.countriesList.removeChildren();
+    this.displayCountries(matches);
   }
 }
