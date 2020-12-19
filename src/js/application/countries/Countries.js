@@ -50,9 +50,9 @@ export default class Countries {
       if (!countryElem) return;
 
       const selectedCountry = countryElem.children[0].children[1].innerText;
-
       this.input.element.value = selectedCountry;
-      console.log(selectedCountry);
+
+      this.AppInstance.table.getSelectedCountry(selectedCountry.toLowerCase());
     });
   }
 
@@ -68,7 +68,7 @@ export default class Countries {
     search.on('submit', e => {
       e.preventDefault();
       const selectedCountry = e.target.children[0].value;
-      console.log(selectedCountry);
+      this.AppInstance.table.getSelectedCountry(selectedCountry.toLowerCase());
     });
 
     submitBtn.append(icon);
@@ -118,8 +118,8 @@ export default class Countries {
 
       let numOfCases = country[this.currentCategory];
       if (this.currentIndex >= this.keys.length / 2) {
-        const population = country.Premium.CountryStats.Population;
-        numOfCases = Math.round((numOfCases / population) * 100000);
+        const per100k = 100000 / country.Premium.CountryStats.Population;
+        numOfCases = Math.round(numOfCases * per100k);
       }
       data.element.textContent = numberWithCommas(numOfCases);
 

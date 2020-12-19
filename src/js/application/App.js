@@ -20,7 +20,7 @@ export default class App {
 
   startApp() {
     this.instance.countries = new Countries(this.instance, this.instance.api);
-    this.instance.table = new Table(this.instance, this.instance.api);
     this.instance.covidMap = new CovidMap(this.instance);
+    this.instance.table = new Table(this.instance, this.instance.api);
   }
 }
