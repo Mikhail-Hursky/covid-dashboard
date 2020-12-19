@@ -1,0 +1,343 @@
+.keyboard {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+  display: grid;
+  grid-row-gap: 10px;
+  padding: 20px 10px;
+  background: #457b9d;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  overflow: hidden;
+  transition: bottom 0.7s ease-in-out;
+}
+
+.keyboard--hidden {
+  bottom: -100%;
+}
+
+.keyboard__row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.keyboard__key {
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.2rem;
+  margin: 0 0.5rem;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+  color: #808080;
+  background-color: #f1faee;
+  border-radius: 10px;
+  box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.keyboard__key.recording {
+  color: #ffffff;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 10s ease-in-out infinite;
+}
+
+.keyboard__key:not(.recording):hover,
+.keyboard__key:not(.recording).active {
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
+  transform: translateY(3px);
+  -webkit-transform: translateY(2px);
+  transition: all 0.1s ease-in-out;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  background: #a8dadc;
+}
+
+[data-fn='true'] > .letter {
+  font-size: 1.6rem;
+}
+
+[data-code='Backspace'] {
+  width: 130px;
+}
+
+[data-code='Tab'],
+[data-code='Delete'],
+[data-code='ArrowUp'],
+[data-code='ArrowRight'],
+[data-code='ArrowDown'],
+[data-code='ArrowLeft'] {
+  width: 60px;
+}
+
+[data-code='CapsLock'] {
+  width: 110px;
+}
+
+[data-code='Enter'] {
+  width: 130px;
+}
+
+[data-code='ShiftLeft'] {
+  width: 90px;
+}
+
+[data-code='ShiftRight'] {
+  width: 140px;
+}
+
+[data-code='Space'] {
+  width: 480px;
+}
+
+[data-code='Done'] {
+  width: 130px;
+}
+
+[data-code='Record'] {
+  width: 70px;
+}
+
+.letter {
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform-origin: center;
+}
+
+.sub {
+  width: 100%;
+  padding-left: 10px;
+  text-align: left;
+  font-size: 1.6rem;
+  color: #a5a5a5;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+}
+
+.sub.sub-active:not(:empty) {
+  font-size: 1.8rem;
+  color: #808080;
+}
+
+.sub.sub-active:not(:empty) ~ .letter.sub-inactive {
+  width: 50%;
+  padding-right: 10px;
+  text-align: center;
+  font-size: 1.4rem;
+  color: #a5a5a5;
+  transform-origin: center;
+  transform: translateX(20px);
+  -webkit-transform: translateX(20px);
+  -moz-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  -o-transform: translateX(20px);
+}
+
+.use-keyboard-input {
+  height: 15rem;
+  width: 60%;
+  max-width: 940px;
+  margin-top: 5rem;
+  padding: 1rem;
+  font-size: 1.8rem;
+  letter-spacing: 0.06em;
+  resize: none;
+  outline: none;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (max-width: 939px) {
+  .use-keyboard-input {
+    width: 80%;
+  }
+
+  .keyboard__key {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 0.4rem;
+    font-size: 1.8rem;
+    border-radius: 8px;
+  }
+
+  [data-fn='true'] > .letter {
+    font-size: 1.6rem;
+  }
+
+  [data-code='Backspace'] {
+    width: 120px;
+  }
+
+  [data-code='Tab'],
+  [data-code='ArrowUp'],
+  [data-code='ArrowRight'],
+  [data-code='ArrowDown'],
+  [data-code='ArrowLeft'] {
+    width: 50px;
+  }
+
+  [data-code='Delete'] {
+    width: 60px;
+  }
+
+  [data-code='CapsLock'] {
+    width: 100px;
+  }
+
+  [data-code='Enter'] {
+    width: 110px;
+  }
+
+  [data-code='ShiftLeft'] {
+    width: 80px;
+  }
+
+  [data-code='ShiftRight'] {
+    width: 120px;
+  }
+
+  [data-code='Space'] {
+    width: 360px;
+  }
+
+  [data-code='Done'] {
+    width: 132px;
+  }
+
+  [data-code='Record'] {
+    width: 62px;
+  }
+
+  .material-icons {
+    font-size: 2.2rem;
+  }
+
+  .sub {
+    padding-left: 2px;
+    font-size: 1.4rem;
+  }
+
+  .sub.sub-active:not(:empty) {
+    font-size: 1.4rem;
+  }
+
+  .sub.sub-active:not(:empty) ~ .letter.sub-inactive {
+    padding-right: 0;
+    font-size: 1.4rem;
+    line-height: 1.2rem;
+    transform: translateX(5px);
+    -webkit-transform: translateX(5px);
+    -moz-transform: translateX(5px);
+    -ms-transform: translateX(5px);
+    -o-transform: translateX(5px);
+  }
+}
+
+@media (max-width: 768px) {
+  .use-keyboard-input {
+    width: 90%;
+  }
+
+  .keyboard {
+    grid-row-gap: 5px;
+    padding: 10px 5px;
+  }
+
+  .keyboard__key {
+    width: 2.6rem;
+    height: 3rem;
+    margin: 0 0.25rem;
+    padding: 0;
+    font-size: 1.6rem;
+    border-radius: 5px;
+    box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  [data-fn='true'] > .letter {
+    font-size: 1.4rem;
+  }
+
+  [data-code='Backspace'] {
+    width: 80px;
+  }
+
+  [data-code='Tab'],
+  [data-code='ArrowUp'],
+  [data-code='ArrowRight'],
+  [data-code='ArrowDown'],
+  [data-code='ArrowLeft'] {
+    width: 30px;
+  }
+
+  [data-code='Delete'] {
+    width: 47px;
+  }
+
+  [data-code='CapsLock'] {
+    width: 75px;
+  }
+
+  [data-code='Enter'] {
+    width: 63px;
+  }
+
+  [data-code='ShiftLeft'] {
+    width: 55px;
+  }
+
+  [data-code='ShiftRight'] {
+    width: 79px;
+  }
+
+  [data-code='Space'] {
+    width: 232px;
+  }
+
+  [data-code='Done'] {
+    width: 93px;
+  }
+
+  [data-code='Record'] {
+    width: 44px;
+  }
+
+  .sub {
+    line-height: 1.2rem;
+  }
+
+  .material-icons {
+    font-size: 2rem;
+  }
+}
