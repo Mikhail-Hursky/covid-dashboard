@@ -1,5 +1,7 @@
 import ElementBuilder from '../utils/ElementBuilder';
 import numberWithCommas from '../utils/Numbers';
+import Keyboard from '../virtual-keyboard/keyboard';
+import keysOrder from '../virtual-keyboard/keysOrder';
 
 export default class Countries {
   constructor(instance, api) {
@@ -33,6 +35,7 @@ export default class Countries {
       'type',
       'text',
     ]);
+    this.keyboard = new Keyboard(this, keysOrder);
     this.countries.push(...this.dataCountries.Countries);
     this.init();
   }
@@ -63,8 +66,10 @@ export default class Countries {
     const submitBtn = new ElementBuilder('button', 'search__submit', ['type', 'submit']);
     const icon = new ElementBuilder('i', 'fas fa-search search__icon');
 
-    this.input.on('input', () => {
-      this.displayMatches();
+    this.input.on('focus', () => {
+      if (!this.keyboard.isKeyboardOpen) {
+        this.keyboard.open();
+      }
     });
 
     search.on('submit', e => {
