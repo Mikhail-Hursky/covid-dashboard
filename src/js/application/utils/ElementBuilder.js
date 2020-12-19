@@ -28,4 +28,12 @@ export default class ElementBuilder {
   remove() {
     this.element.remove();
   }
+
+  removeChildren() {
+    this.element.innerHTML = '';
+  }
+
+  on(event, callback) {
+    this.element.addEventListener(event, callback);
+  }
 }

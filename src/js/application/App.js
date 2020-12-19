@@ -1,5 +1,6 @@
 import Api from './api/Api';
 import Countries from './countries/Countries';
+import Table from './table/Table';
 import CovidMap from './covidMap/CovidMap';
 import Preload from './preload/Preload';
 
@@ -20,5 +21,6 @@ export default class App {
   startApp() {
     this.instance.countries = new Countries(this.instance, this.instance.api);
     this.instance.covidMap = new CovidMap(this.instance);
+    this.instance.table = new Table(this.instance, this.instance.api);
   }
 }

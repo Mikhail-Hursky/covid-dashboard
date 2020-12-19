@@ -3,6 +3,7 @@
 @import './variables';
 @import './leftCol';
 @import './centerCol';
+@import './rightCol';
 
 * {
   padding: 0;
@@ -19,9 +20,3 @@ body {
   width: 100%;
   height: 100vh;
 }
-
-.right-col {
-  width: 35%;
-  background: $colorAccent;
-}
-
