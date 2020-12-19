@@ -50,7 +50,9 @@ export default class Countries {
       if (!countryElem) return;
 
       const selectedCountry = countryElem.children[0].children[1].innerText;
+
       this.input.element.value = selectedCountry;
+      this.displayMatches();
 
       this.AppInstance.table.getSelectedCountry(selectedCountry.toLowerCase());
     });

@@ -74,7 +74,6 @@ export default class Table {
 
   createCards(cardsMap, data) {
     this.cardsContainer.removeChildren();
-    console.log(data);
 
     cardsMap.forEach((value, key) => {
       let cases;
