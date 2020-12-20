@@ -124,10 +124,14 @@ export default class Table {
     return this.tableTitle.element.innerText.toLowerCase() === 'global';
   }
 
-  getSelectedCountry(country) {
-    this.casesForCountry = this.countries.find(item => {
-      return item.Country.toLowerCase() === country;
-    });
+  getSelectedCountry(country, countryObj) {
+    if (countryObj === undefined) {
+      this.casesForCountry = this.countries.find(item => {
+        return item.Country.toLowerCase() === country;
+      });
+    } else {
+      this.casesForCountry = countryObj;
+    }
 
     this.tableTitle.element.innerText = country;
     this.createCards(this.getCurrentCategory(), this.casesForCountry);

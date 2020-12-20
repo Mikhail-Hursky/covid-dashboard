@@ -1,5 +1,15 @@
 import ElementBuilder from '../utils/ElementBuilder';
 import numberWithCommas from '../utils/Numbers';
+import Keyboard from '../virtual-keyboard/keyboard';
+import keysOrder from '../virtual-keyboard/keysOrder';
+
+const countryNotFound = `
+  <h2>Country not found!</h2>
+  <div class="virus covid1"></div>
+  <div class="virus covid1"></div>
+  <div class="virus covid1"></div>
+  <div class="virus covid1"></div>
+  `;
 
 export default class Countries {
   constructor(instance, api) {
@@ -33,6 +43,7 @@ export default class Countries {
       'type',
       'text',
     ]);
+    this.keyboard = new Keyboard(this, keysOrder);
     this.countries.push(...this.dataCountries.Countries);
     this.init();
   }
@@ -63,14 +74,14 @@ export default class Countries {
     const submitBtn = new ElementBuilder('button', 'search__submit', ['type', 'submit']);
     const icon = new ElementBuilder('i', 'fas fa-search search__icon');
 
-    this.input.on('input', () => {
-      this.displayMatches();
+    this.input.on('focus', () => {
+      if (!this.keyboard.isKeyboardOpen) {
+        this.keyboard.open();
+      }
     });
 
     search.on('submit', e => {
-      e.preventDefault();
-      const selectedCountry = e.target.children[0].value;
-      this.AppInstance.table.getSelectedCountry(selectedCountry.toLowerCase());
+      this.submit(e);
     });
 
     submitBtn.append(icon);
@@ -178,12 +189,38 @@ export default class Countries {
     }
   }
 
+  submit(event) {
+    event.preventDefault();
+
+    let country;
+
+    if (event.target.tagName === 'INPUT') {
+      country = event.target.value.toLowerCase();
+    } else {
+      country = event.target.children[0].value.toLowerCase();
+    }
+
+    const countryData = this.countries.find(item => item.Country.toLowerCase() === country);
+
+    if (!countryData) {
+      return;
+    }
+
+    this.AppInstance.table.getSelectedCountry(country, countryData);
+  }
+
   displayMatches() {
     const { value } = this.input.element;
     this.matches = this.countries.filter(item => {
       return item.Country.toLowerCase().includes(value.toLowerCase());
     });
+
     this.countriesList.removeChildren();
-    this.displayCountries(this.matches);
+
+    if (this.matches.length) {
+      this.displayCountries(this.matches);
+    } else {
+      this.countriesList.element.innerHTML = countryNotFound;
+    }
   }
 }
