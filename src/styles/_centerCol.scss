@@ -1,14 +1,5 @@
 .center-col {
-  width: 50%;
-  background: $colorPrimaryLight;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 60%;
+  background: #212020;
   z-index: 2;
-
-  &__map {
-    display: block;
-    width: 90%;
-    height: 90vh;
-  }
 }

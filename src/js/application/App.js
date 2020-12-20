@@ -8,7 +8,7 @@ export default class App {
   constructor() {
     if (App.exists) return App.instance;
     this.instance = this;
-    this.instance.api = new Api();
+    this.instance.api = new Api(this.instance);
     this.preload = new Preload();
     App.exists = true;
     this.instance.api.getCovidData().then(data => {
