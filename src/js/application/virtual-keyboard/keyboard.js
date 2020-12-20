@@ -122,6 +122,12 @@ export default class Keyboard {
         this.switchUpperCase();
       }
 
+      if (code === 'Enter') {
+        console.log(code, event);
+        this.page.submit(event);
+        return;
+      }
+
       if (code === 'Record') {
         this.toggleRecognition();
         return;
@@ -195,10 +201,6 @@ export default class Keyboard {
     const fnBtnHandler = {
       Tab: () => {
         this.textarea.value = `${leftArea}\t${rightArea}`;
-        carriagePos += 1;
-      },
-      Enter: () => {
-        this.textarea.value = `${leftArea}\n${rightArea}`;
         carriagePos += 1;
       },
       Space: () => {
