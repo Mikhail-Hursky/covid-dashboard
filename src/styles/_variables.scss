@@ -1,13 +1,23 @@
-$colorLight: #ffffff;
+$colorLight-s: #f7f3f0;
+$colorLight-m: #f9f9f9;
 $colorDark: #615d6c;
-$colorPrimaryLight: #bde0fe;
-$colorPrimary: #00509d;
-$colorAccent: #fdc500;
+$colorPrimary: #efdbb2;
+$colorAccent: #963821;
+$red: #dc4405;
+$green: #84bd00;
+$blue: #307fe2;
+$colorPrimary-m: #ceb888;
 $shadow: 0 4px 12px rgba(18, 22, 33, 0.2);
 $selectWidth: 210px;
-$red: #e74c3c;
-$green: #2ecc71;
-$blue: #3498db;
+
+@mixin header1() {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 130%;
+  letter-spacing: 0.06em;
+  color: $colorAccent;
+}
 
 @mixin header2() {
   font-family: 'Lato', sans-serif;
@@ -43,5 +53,4 @@ $blue: #3498db;
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
-  align-items: center;
 }

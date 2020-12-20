@@ -1,16 +1,17 @@
 .right-col {
-  width: 25%;
+  min-width: 20rem;
+  max-width: 23rem;
   @include flex-col();
-  padding: 2rem;
-  background: $colorLight;
 
   .title {
     @include header2();
+    text-align: center;
     text-transform: uppercase;
   }
 
   .controls {
     @include flex-col();
+    align-items: center;
     text-align: center;
 
     .control {
@@ -18,7 +19,7 @@
       display: inline-block;
       padding: 2px;
       border-radius: 24px;
-      border: 2px solid $colorPrimary;
+      border: 2px solid $colorAccent;
 
       input {
         position: absolute;
@@ -32,9 +33,10 @@
         width: 90px;
         height: 40px;
         @include header4();
-        color: $colorPrimary;
+        color: $colorAccent;
         line-height: 40px;
         cursor: pointer;
+        transition: all 0.3s ease-in-out;
       }
 
       .switch {
@@ -43,7 +45,7 @@
         left: 2px;
         height: 40px;
         width: 90px;
-        background: $colorPrimaryLight;
+        background: $colorAccent;
         border-radius: 50em;
         transition: transform 0.5s;
       }
@@ -53,16 +55,20 @@
     input[type='radio']:checked + label:nth-of-type(n) + .switch {
       transform: translateX(92px);
     }
+
+    input[type='radio']:checked + label {
+      color: $colorLight-s;
+    }
   }
 
   .cards {
     @include flex-col();
-    align-items: stretch;
     min-width: 200px;
     max-width: 400px;
 
     .card {
       padding: 1.5rem;
+      background: $colorLight-s;
       border-radius: 12px;
       box-shadow: $shadow;
       transition: 0.3s all;
@@ -70,26 +76,24 @@
       &__value {
         margin-bottom: 1rem;
         @include header2();
-        color: $colorLight;
       }
 
       &__title {
         @include header4();
-        color: $colorLight;
         text-transform: capitalize;
       }
     }
 
-    .card:first-child {
-      background-color: $blue;
+    .card:first-child .card__value {
+      color: $blue;
     }
 
-    .card:nth-child(2) {
-      background-color: $red;
+    .card:nth-child(2) .card__value {
+      color: $red;
     }
 
-    .card:last-child {
-      background-color: $green;
+    .card:last-child .card__value {
+      color: $green;
     }
   }
 }

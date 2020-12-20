@@ -1,16 +1,12 @@
 .left-col {
-  display: flex;
-  flex-direction: column;
-  row-gap: 2rem;
-  width: 25%;
-  min-width: 30rem;
-  padding: 2rem;
-  background: $colorPrimary;
+  @include flex-col;
+  min-width: 26rem;
+  max-width: 32rem;
 
   .search {
     display: flex;
     padding: 0.7rem;
-    background-color: $colorLight;
+    background-color: $colorLight-m;
     border-radius: 12px;
     box-shadow: $shadow;
 
@@ -29,7 +25,7 @@
     &__submit {
       padding: 0.6em;
       margin-left: 0.8rem;
-      background: $colorLight;
+      background: $colorLight-m;
       border: none;
       border-radius: 50%;
       outline: none;
@@ -37,7 +33,7 @@
       cursor: pointer;
 
       &:hover {
-        background: $colorPrimaryLight;
+        background: $colorAccent;
       }
     }
 
@@ -69,7 +65,7 @@
       width: 100%;
       text-align: left;
       color: $colorDark;
-      background: $colorLight;
+      background: $colorLight-m;
       border: none;
       border-radius: 6px;
       box-shadow: $shadow;
@@ -121,19 +117,18 @@
   .countries-list {
     @include flex-col();
     justify-content: flex-start;
-    align-items: stretch;
     row-gap: 0.3rem;
     width: 100%;
     height: 100%;
     padding: 0.8rem 0.5rem;
-    background: $colorLight;
+    background: $colorLight-s;
     border-radius: 12px;
     box-shadow: $shadow;
     overflow-y: scroll;
 
     &__item {
       padding: 0.3rem;
-      background: $colorLight;
+      background: $colorLight-s;
       cursor: pointer;
 
       &__country {

@@ -22,7 +22,7 @@ export default class ElementBuilder {
   }
 
   appendToBody() {
-    document.body.append(this.element);
+    document.body.children[1].append(this.element);
   }
 
   remove() {
