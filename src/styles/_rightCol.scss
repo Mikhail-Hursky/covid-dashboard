@@ -1,6 +1,6 @@
 .right-col {
-  min-width: 20rem;
-  max-width: 23rem;
+  // min-width: 20rem;
+  width: 22rem;
   @include flex-col();
 
   .title {

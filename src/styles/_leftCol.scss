@@ -1,7 +1,7 @@
 .left-col {
   @include flex-col;
-  min-width: 26rem;
-  max-width: 32rem;
+  // min-width: 26rem;
+  width: 32rem;
 
   .search {
     display: flex;
@@ -115,6 +115,7 @@
   }
 
   .countries-list {
+    position: relative;
     @include flex-col();
     justify-content: flex-start;
     row-gap: 0.3rem;
@@ -154,6 +155,17 @@
           color: $blue;
         }
       }
+    }
+
+    h2 {
+      position: absolute;
+      top: 40%;
+      max-width: 4rem;
+      padding-left: 2rem;
+      @include header2();
+      font-size: 3rem;
+      color: $colorAccent;
+      transform: translateY(-50%);
     }
   }
 }

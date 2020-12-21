@@ -6,9 +6,9 @@ import keysOrder from '../virtual-keyboard/keysOrder';
 const countryNotFound = `
   <h2>Country not found!</h2>
   <div class="virus covid1"></div>
-  <div class="virus covid1"></div>
-  <div class="virus covid1"></div>
-  <div class="virus covid1"></div>
+  <div class="virus covid2"></div>
+  <div class="virus covid3"></div>
+  <div class="virus covid4"></div>
   `;
 
 export default class Countries {
