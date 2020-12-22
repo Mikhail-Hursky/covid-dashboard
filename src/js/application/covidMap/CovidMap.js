@@ -3,7 +3,6 @@ import * as am4charts from '@amcharts/amcharts4/charts';
 import * as am4maps from '@amcharts/amcharts4/maps';
 import am4GeoDataWorldLow from '@amcharts/amcharts4-geodata/worldLow';
 import am4ThemesAnimated from '@amcharts/amcharts4/themes/animated';
-import ElementBuilder from '../utils/ElementBuilder';
 
 export default class CovidMap {
   constructor(instance) {
@@ -67,7 +66,7 @@ export default class CovidMap {
     this.backgroundColor = am4core.color('#322923'); // bullets at chart
     this.activeColor = am4core.color('#963821');
     this.confirmedColor = am4core.color('#307fe2');
-    this.recoveredColor = am4core.color('#84bd00');
+    this.recoveredColor = am4core.color('#058200');
     this.deathsColor = am4core.color('#dc4405');
 
     // for an easier access by key
@@ -195,9 +194,11 @@ export default class CovidMap {
     this.polygonTemplate.setStateOnChildren = true;
     this.polygonTemplate.tooltipPosition = 'fixed';
 
-    this.polygonTemplate.events.on('hit', this.selectCountry.bind(this));
+    this.polygonTemplate.events.on('hit', e => {
+      this.selectCountry(this.polygonSeries.getPolygonById(e.target.dataItem.id));
+    });
     this.polygonTemplate.events.on('over', e => {
-      this.selectCountry(e.target);
+      this.rollOverCountry(e.target);
     });
     this.polygonTemplate.events.on('out', e => {
       this.rollOverCountry(e.target);
@@ -251,8 +252,9 @@ export default class CovidMap {
     this.resetHover();
     if (this.countryDataTimeout) clearTimeout(this.countryDataTimeout);
 
-    // eslint-disable-next-line no-return-assign
-    this.polygonSeries.mapPolygons.each(polygon => (polygon.isActive = false));
+    this.polygonSeries.mapPolygons.each(polygon => {
+      polygon.isActive = false;
+    });
 
     this.updateCountryName();
 
@@ -537,7 +539,7 @@ export default class CovidMap {
     this.nameAndButtonsContainer.layout = 'horizontal';
 
     this.countryName = this.nameAndButtonsContainer.createChild(am4core.Label);
-    this.countryName.fontSize = '1.1em';
+    this.countryName.fontSize = '2.5em';
     this.countryName.fill = am4core.color('#ffffff');
     this.countryName.valign = 'middle';
 
@@ -571,7 +573,7 @@ export default class CovidMap {
     this.slider.width = am4core.percent(100);
     this.slider.valign = 'middle';
     this.slider.background.opacity = 0.4;
-    this.slider.opacity = 0.7;
+    this.slider.opacity = 0.1;
     this.slider.background.fill = am4core.color('#ffffff');
     this.slider.marginLeft = 20;
     this.slider.marginRight = 35;
