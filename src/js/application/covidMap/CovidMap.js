@@ -31,6 +31,8 @@ export default class CovidMap {
       this.slideData = this.getSlideData();
       this.mapData = JSON.parse(JSON.stringify(this.slideData.list));
       this.removeItemsWithZeroValue();
+      this.max = { confirmed: 0, recovered: 0, deaths: 0 };
+      this.maxPC = { confirmed: 0, recovered: 0, deaths: 0, active: 0 };
       this.theLastDayMost();
       this.createMainContainer();
       this.createMapChart();
@@ -118,9 +120,6 @@ export default class CovidMap {
   }
 
   theLastDayMost() {
-    this.max = { confirmed: 0, recovered: 0, deaths: 0 };
-    this.maxPC = { confirmed: 0, recovered: 0, deaths: 0, active: 0 };
-
     for (let i = 0; i < this.mapData.length; i++) {
       const di = this.mapData[i];
       if (di.confirmed > this.max.confirmed) this.max.confirmed = di.confirmed;
@@ -152,14 +151,20 @@ export default class CovidMap {
     this.mapChart.zoomControl.valign = 'middle';
     this.mapChart.homeGeoPoint = { longitude: 0, latitude: -2 };
 
-    this.mapChart.zoomControl.minusButton.events.on('hit', this.showWorld);
+    this.mapChart.zoomControl.minusButton.events.on('hit', () => {
+      this.showWorld();
+    });
     // clicking on a "sea" will also result a full zoom-out
-    this.mapChart.seriesContainer.background.events.on('hit', this.showWorld);
-    this.mapChart.seriesContainer.background.events.on('over', this.resetHover);
+    this.mapChart.seriesContainer.background.events.on('hit', () => {
+      this.showWorld();
+    });
+    this.mapChart.seriesContainer.background.events.on('over', () => {
+      this.resetHover();
+    });
 
     this.mapChart.seriesContainer.background.fillOpacity = 0;
     this.mapChart.zoomEasing = am4core.ease.sinOut;
-    // eslint-disable-next-line camelcase
+
     this.mapChart.geodata = am4GeoDataWorldLow;
     this.mapChart.projection = new am4maps.projections.Miller();
     this.mapChart.panBehavior = 'move';
@@ -190,9 +195,13 @@ export default class CovidMap {
     this.polygonTemplate.setStateOnChildren = true;
     this.polygonTemplate.tooltipPosition = 'fixed';
 
-    this.polygonTemplate.events.on('hit', e => this.selectCountry(e.target));
-    this.polygonTemplate.events.on('over', e => this.selectCountry(e.target));
-    this.polygonTemplate.events.on('out', e => this.rollOverCountry(e.target));
+    this.polygonTemplate.events.on('hit', this.selectCountry.bind(this));
+    this.polygonTemplate.events.on('over', e => {
+      this.selectCountry(e.target);
+    });
+    this.polygonTemplate.events.on('out', e => {
+      this.rollOverCountry(e.target);
+    });
 
     this.polygonSeries.heatRules.push({
       target: this.polygonTemplate,
@@ -270,8 +279,9 @@ export default class CovidMap {
     this.polygonSeries.mapPolygons.values.forEach(polygon => {
       polygon.isHover = false;
     });
-    // eslint-disable-next-line no-return-assign
-    this.bubbleSeries.mapImages.each(image => (image.isHover = false));
+    this.bubbleSeries.mapImages.each(image => {
+      image.isHover = false;
+    });
   }
 
   updateCountryName() {
