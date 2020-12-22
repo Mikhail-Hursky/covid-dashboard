@@ -50,7 +50,6 @@ export default class CovidMap {
         this.lineChart.cursor.hide();
         this.updateTotals(this.currentIndex);
       });
-      // set initial data and names
 
       this.updateCountryName();
       this.changeDataType('active');
@@ -64,7 +63,7 @@ export default class CovidMap {
     this.backgroundColor = am4core.color('#322923'); // bullets at chart
     this.activeColor = am4core.color('#963821');
     this.confirmedColor = am4core.color('#307fe2');
-    this.recoveredColor = am4core.color('#84bd00');
+    this.recoveredColor = am4core.color('#e800ff');
     this.deathsColor = am4core.color('#dc4405');
 
     // for an easier access by key
@@ -480,8 +479,8 @@ export default class CovidMap {
     this.bubbleSeries.heatRules.push({
       target: this.circle,
       property: 'radius',
-      min: 3,
-      max: 30,
+      min: 6,
+      max: 24,
       dataField: 'value',
     });
 
@@ -903,7 +902,7 @@ export default class CovidMap {
     series.dataFields.valueY = name;
     series.dataFields.dateX = 'date';
     series.name = this.capitalizeFirstLetter(name);
-    series.strokeOpacity = 0.1;
+    series.strokeOpacity = 1;
     series.stroke = color;
     series.fill = color;
     series.maskBullets = false;

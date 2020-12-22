@@ -142,6 +142,9 @@ export default class Table {
 
     this.tableTitle.element.innerText = country;
     this.createCards(this.getCurrentCategory(), this.casesForCountry);
+    this.AppInstance.covidMap.selectCountry(
+      this.AppInstance.covidMap.polygonSeries.getPolygonById(this.casesForCountry.countryInfo.iso2),
+    );
   }
 
   getCurrentCategory() {
