@@ -36,8 +36,6 @@ export default class Table {
   }
 
   init() {
-    const tableContainer = new ElementBuilder('div', 'right-col');
-
     this.tableTitle.element.innerText = 'global';
 
     const controls = new ElementBuilder('div', 'controls');
@@ -68,8 +66,7 @@ export default class Table {
 
     this.createCards(this.totalCases, this.global);
 
-    tableContainer.append(this.tableTitle, controls, this.cardsContainer);
-    tableContainer.appendToBody();
+    this.AppInstance.rightCol.append(this.tableTitle, controls, this.cardsContainer);
   }
 
   createCards(cardsMap, data) {

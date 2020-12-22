@@ -33,9 +33,8 @@ export default class Countries {
     this.currentCategory = this.params.get(this.keys[this.currentIndex]);
     this.AppInstance = instance;
     this.api = api;
-    this.dataCountries = this.AppInstance.dataCountries[1];
-    this.countries = this.dataCountries;
-    this.container = new ElementBuilder('div', 'left-col');
+    this.countries = this.AppInstance.dataCountries[1];
+    this.container = this.AppInstance.leftCol;
     this.countriesList = new ElementBuilder('div', 'countries-list');
     this.input = new ElementBuilder('input', 'search__box', [
       'placeholder',
@@ -48,7 +47,6 @@ export default class Countries {
   }
 
   init() {
-    this.container.appendToBody();
     this.createSearchBar();
     this.createSelect();
     this.displayCountries(this.countries);

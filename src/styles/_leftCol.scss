@@ -137,6 +137,10 @@
         align-items: center;
         column-gap: 0.3rem;
         @include header4();
+
+        .country__flag {
+          width: 3.2rem;
+        }
       }
 
       &__data {

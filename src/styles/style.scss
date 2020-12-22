@@ -36,11 +36,16 @@ header {
     @include header1();
     text-transform: uppercase;
   }
+
+  span {
+    @include header4();
+  }
 }
 
 main {
   height: calc(100vh - 102px);
   display: flex;
+  column-gap: 2rem;
   padding: 0 2rem 1.5rem;
   background: $colorPrimary;
 }

@@ -8,8 +8,7 @@ import ElementBuilder from '../utils/ElementBuilder';
 export default class CovidMap {
   constructor(instance) {
     this.AppInstance = instance;
-    this.container = new ElementBuilder('div', 'center-col');
-    this.container.appendToBody();
+    this.container = this.AppInstance.centerCol;
     this.AppInstance.api.getCoordinates().then(r => {
       this.covidData = r;
       this.createMap();
