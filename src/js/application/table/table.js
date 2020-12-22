@@ -74,6 +74,7 @@ export default class Table {
     backBtn.on('click', () => {
       this.tableTitle.element.innerText = 'global';
       this.createCards(this.getCurrentCategory(), this.global);
+      this.AppInstance.countries.displayCountries(this.countries);
       this.AppInstance.countries.input.element.value = '';
     });
 
