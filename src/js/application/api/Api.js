@@ -5,25 +5,28 @@ export default class Api {
     this.apiKeyCovid = '5cf9dfd5-3449-485e-b5ae-70a60e997864';
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getCountryFlag(countryCode) {
-    return `https://www.countryflags.io/${countryCode}/flat/32.png`;
-  }
-
-  // eslint-disable-next-line consistent-return
-  async getCovidData() {
+  async getCovidDataByCountries() {
     try {
-      const response = await fetch(`${this.covidUrl}summary`, {
-        headers: {
-          'X-Access-Token': this.apiKeyCovid,
-        },
-      });
+      const response = await fetch('https://corona.lmao.ninja/v2/countries');
       const data = await response.json();
       if (data.Message === 'Caching in progress') throw new Error('Caching in progress');
       return data;
     } catch (e) {
       this.AppInstance.preload.errorServer();
     }
+    return false;
+  }
+
+  async getGlobalCovidData() {
+    try {
+      const response = await fetch('https://disease.sh/v3/covid-19/all');
+      const data = await response.json();
+      if (data.Message === 'Caching in progress') throw new Error('Caching in progress');
+      return data;
+    } catch (e) {
+      this.AppInstance.preload.errorServer();
+    }
+    return false;
   }
 
   // eslint-disable-next-line class-methods-use-this

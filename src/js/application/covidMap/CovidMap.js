@@ -18,10 +18,10 @@ export default class CovidMap {
 
   // eslint-disable-next-line class-methods-use-this
   createMap() {
-    const arrCountries = this.AppInstance.dataCountries.Countries;
+    const arrCountries = this.AppInstance.dataCountries[1];
     let str = '';
     arrCountries.forEach(el => {
-      str += `"${el.CountryCode}":${el.Premium.CountryStats.Population},`;
+      str += `"${el.countryInfo.iso2}":${el.population},`;
     });
     this.population = JSON.parse(`{${str.substring(0, str.length - 1)}}`);
     am4core.useTheme(am4ThemesAnimated);
@@ -63,11 +63,11 @@ export default class CovidMap {
   prepareDta() {
     this.numberFormatter = new am4core.NumberFormatter();
 
-    this.backgroundColor = am4core.color('#1e2128');
-    this.activeColor = am4core.color('#ff8726');
-    this.confirmedColor = am4core.color('#d21a1a');
-    this.recoveredColor = am4core.color('#45d21a');
-    this.deathsColor = am4core.color('#1c5fe5');
+    this.backgroundColor = am4core.color('#322923'); // bullets at chart
+    this.activeColor = am4core.color('#963821');
+    this.confirmedColor = am4core.color('#307fe2');
+    this.recoveredColor = am4core.color('#84bd00');
+    this.deathsColor = am4core.color('#dc4405');
 
     // for an easier access by key
     this.colors = {
@@ -77,11 +77,11 @@ export default class CovidMap {
       deaths: this.deathsColor,
     };
 
-    this.countryColor = am4core.color('#3b3b3b');
-    this.countryStrokeColor = am4core.color('#000000');
-    this.buttonStrokeColor = am4core.color('#ffffff');
-    this.countryHoverColor = am4core.color('#1b1b1b');
-    this.activeCountryColor = am4core.color('#0f0f0f');
+    this.countryColor = am4core.color('#B9975B');
+    this.countryStrokeColor = am4core.color('#DDCBA4');
+    this.buttonStrokeColor = am4core.color('#322923');
+    this.countryHoverColor = am4core.color('#322923');
+    this.activeCountryColor = am4core.color('#816637');
     this.currentCountry = 'World';
     // last date of the data
     this.lastDate = new Date(this.covidData[this.covidData.length - 1].date);
@@ -756,7 +756,7 @@ export default class CovidMap {
     this.lineChart.legend.labels.template.fill = am4core.color('#ffffff');
     this.lineChart.legend.markers.template.height = 8;
     this.lineChart.legend.contentAlign = 'left';
-    this.lineChart.legend.fontSize = '10px';
+    this.lineChart.legend.fontSize = '16px';
     this.lineChart.legend.itemContainers.template.valign = 'middle';
     this.legendDown = false;
     this.lineChart.legend.itemContainers.template.events.on('down', () => {
@@ -955,7 +955,7 @@ export default class CovidMap {
     const button = this.buttonsContainer.createChild(am4core.Button);
     button.label.valign = 'middle';
     button.label.fill = am4core.color('#ffffff');
-    button.label.fontSize = '11px';
+    button.label.fontSize = '16px';
     button.background.cornerRadius(30, 30, 30, 30);
     button.background.strokeOpacity = 0.3;
     button.background.fillOpacity = 0;
@@ -1065,6 +1065,6 @@ export default class CovidMap {
 
   updateCountryTooltip() {
     // eslint-disable-next-line
-    this.polygonSeries.mapPolygons.template.tooltipText = `[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:15px] ${this.currentTypeName} per million`;
+    this.polygonSeries.mapPolygons.template.tooltipText = `[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:16px] ${this.currentTypeName} per million`;
   }
 }

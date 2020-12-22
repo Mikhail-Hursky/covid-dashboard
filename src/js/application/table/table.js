@@ -4,31 +4,31 @@ import numberWithCommas from '../utils/Numbers';
 export default class Table {
   constructor(instance, api) {
     this.totalCases = new Map([
-      ['total cases', 'TotalConfirmed'],
-      ['total deaths', 'TotalDeaths'],
-      ['total recovered', 'TotalRecovered'],
+      ['total cases', 'cases'],
+      ['total deaths', 'deaths'],
+      ['total recovered', 'recovered'],
     ]);
     this.newCases = new Map([
-      ['new cases', 'NewConfirmed'],
-      ['new deaths', 'NewDeaths'],
-      ['new recovered', 'NewRecovered'],
+      ['new cases', 'todayCases'],
+      ['new deaths', 'todayDeaths'],
+      ['new recovered', 'todayRecovered'],
     ]);
     this.totalCasesPer100k = new Map([
-      ['total cases per 100k', 'TotalConfirmed'],
-      ['total deaths per 100k', 'TotalDeaths'],
-      ['total recovered per 100k', 'TotalRecovered'],
+      ['total cases per 100k', 'cases'],
+      ['total deaths per 100k', 'deaths'],
+      ['total recovered per 100k', 'recovered'],
     ]);
     this.newCasesPer100k = new Map([
-      ['new cases per 100k', 'NewConfirmed'],
-      ['new deaths per 100k', 'NewDeaths'],
-      ['new recovered per 100k', 'NewRecovered'],
+      ['new cases per 100k', 'todayCases'],
+      ['new deaths per 100k', 'todayDeaths'],
+      ['new recovered per 100k', 'todayRecovered'],
     ]);
     this.isNewCases = false;
     this.isPer100k = false;
     this.AppInstance = instance;
     this.api = api;
-    this.countries = this.AppInstance.dataCountries.Countries;
-    this.global = this.AppInstance.dataCountries.Global;
+    this.countries = this.AppInstance.dataCountries[1];
+    this.global = this.AppInstance.dataCountries[0];
     this.casesForCountry = null;
     this.cardsContainer = new ElementBuilder('div', 'cards');
     this.tableTitle = new ElementBuilder('div', 'title');
@@ -82,7 +82,7 @@ export default class Table {
       if (this.isGlobal()) {
         cases = this.isPer100k ? '' : data[value];
       } else {
-        const per100k = 100000 / data.Premium.CountryStats.Population;
+        const per100k = 100000 / data.population;
         cases = this.isPer100k ? Math.round(data[value] * per100k) : data[value];
       }
 
@@ -127,7 +127,7 @@ export default class Table {
   getSelectedCountry(country, countryObj) {
     if (countryObj === undefined) {
       this.casesForCountry = this.countries.find(item => {
-        return item.Country.toLowerCase() === country;
+        return item.country.toLowerCase() === country;
       });
     } else {
       this.casesForCountry = countryObj;

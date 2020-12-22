@@ -11,7 +11,14 @@ export default class App {
     this.instance.api = new Api(this.instance);
     this.preload = new Preload();
     App.exists = true;
-    this.instance.api.getCovidData().then(data => {
+    this.p1 = this.instance.api.getGlobalCovidData();
+    this.p2 = this.instance.api.getCovidDataByCountries();
+    this.init();
+  }
+
+  init() {
+    Promise.all([this.p1, this.p2]).then(data => {
+      console.log(data);
       this.dataCountries = data;
       this.preload.removePreload();
       this.startApp();

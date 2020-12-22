@@ -13,28 +13,28 @@ const countryNotFound = `
 
 export default class Countries {
   constructor(instance, api) {
-    this.countries = [];
     this.matches = null;
     this.params = new Map([
-      ['total cases', 'TotalConfirmed'],
-      ['total deaths', 'TotalDeaths'],
-      ['total recovered', 'TotalRecovered'],
-      ['new cases', 'NewConfirmed'],
-      ['new deaths', 'NewDeaths'],
-      ['new recovered', 'NewRecovered'],
-      ['total cases per 100k', 'TotalConfirmed'],
-      ['total deaths per 100k', 'TotalDeaths'],
-      ['total recovered per 100k', 'TotalRecovered'],
-      ['new cases per 100k', 'NewConfirmed'],
-      ['new deaths per 100k', 'NewDeaths'],
-      ['new recovered per 100k', 'NewRecovered'],
+      ['total cases', 'cases'],
+      ['total deaths', 'deaths'],
+      ['total recovered', 'recovered'],
+      ['new cases', 'todayCases'],
+      ['new deaths', 'todayDeaths'],
+      ['new recovered', 'todayRecovered'],
+      ['total cases per 100k', 'cases'],
+      ['total deaths per 100k', 'deaths'],
+      ['total recovered per 100k', 'recovered'],
+      ['new cases per 100k', 'todayCases'],
+      ['new deaths per 100k', 'todayDeaths'],
+      ['new recovered per 100k', 'todayRecovered'],
     ]);
     this.keys = [...this.params.keys()];
     this.currentIndex = 0;
     this.currentCategory = this.params.get(this.keys[this.currentIndex]);
     this.AppInstance = instance;
     this.api = api;
-    this.dataCountries = this.AppInstance.dataCountries;
+    this.dataCountries = this.AppInstance.dataCountries[1];
+    this.countries = this.dataCountries;
     this.container = new ElementBuilder('div', 'left-col');
     this.countriesList = new ElementBuilder('div', 'countries-list');
     this.input = new ElementBuilder('input', 'search__box', [
@@ -44,7 +44,6 @@ export default class Countries {
       'text',
     ]);
     this.keyboard = new Keyboard(this, keysOrder);
-    this.countries.push(...this.dataCountries.Countries);
     this.init();
   }
 
@@ -116,22 +115,22 @@ export default class Countries {
 
     this.sortList(countries);
 
-    countries.forEach(country => {
+    countries.forEach(item => {
       const countryElement = new ElementBuilder('div', 'countries-list__item');
       const countryDiv = new ElementBuilder('div', 'countries-list__item__country');
 
       const flag = new ElementBuilder('img', 'country__flag');
       const countryName = new ElementBuilder('h4', 'country__name');
 
-      flag.element.src = this.api.getCountryFlag(country.CountryCode);
-      countryName.element.textContent = country.Country;
+      flag.element.src = item.countryInfo.flag;
+      countryName.element.innerText = item.country;
 
       const data = new ElementBuilder('div', 'countries-list__item__data');
       data.element.classList.add(color);
 
-      let numOfCases = country[this.currentCategory];
+      let numOfCases = item[this.currentCategory];
       if (this.currentIndex >= this.keys.length / 2) {
-        const per100k = 100000 / country.Premium.CountryStats.Population;
+        const per100k = 100000 / item.population;
         numOfCases = Math.round(numOfCases * per100k);
       }
       data.element.textContent = numberWithCommas(numOfCases);
@@ -148,10 +147,10 @@ export default class Countries {
   }
 
   chooseColor() {
-    if (this.currentCategory.includes('Confirmed')) {
+    if (this.currentCategory.includes('cases')) {
       return 'blue';
     }
-    if (this.currentCategory.includes('Deaths')) {
+    if (this.currentCategory.includes('deaths')) {
       return 'red';
     }
     return 'green';
@@ -200,7 +199,7 @@ export default class Countries {
       country = event.target.children[0].value.toLowerCase();
     }
 
-    const countryData = this.countries.find(item => item.Country.toLowerCase() === country);
+    const countryData = this.countries.find(item => item.country.toLowerCase() === country);
 
     if (!countryData) {
       return;
@@ -212,7 +211,7 @@ export default class Countries {
   displayMatches() {
     const { value } = this.input.element;
     this.matches = this.countries.filter(item => {
-      return item.Country.toLowerCase().includes(value.toLowerCase());
+      return item.country.toLowerCase().includes(value.toLowerCase());
     });
 
     this.countriesList.removeChildren();
