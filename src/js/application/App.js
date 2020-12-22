@@ -50,6 +50,10 @@ export default class App {
     this.centerCol = new ElementBuilder('div', 'center-col');
     this.rightCol = new ElementBuilder('div', 'right-col');
 
+    this.addFullSreenToggle(this.leftCol);
+    this.addFullSreenToggle(this.centerCol);
+    this.addFullSreenToggle(this.rightCol);
+
     header.element.insertAdjacentHTML(
       'afterbegin',
       `
