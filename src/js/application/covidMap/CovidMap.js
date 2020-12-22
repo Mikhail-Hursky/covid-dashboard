@@ -63,7 +63,7 @@ export default class CovidMap {
     this.backgroundColor = am4core.color('#322923'); // bullets at chart
     this.activeColor = am4core.color('#963821');
     this.confirmedColor = am4core.color('#307fe2');
-    this.recoveredColor = am4core.color('#e800ff');
+    this.recoveredColor = am4core.color('#00ff29');
     this.deathsColor = am4core.color('#dc4405');
 
     // for an easier access by key
@@ -350,27 +350,6 @@ export default class CovidMap {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  rotateAndZoom(mapPolygon) {
-    this.polygonSeries.hideTooltip();
-    const animation = this.mapChart.animate(
-      [
-        { property: 'deltaLongitude', to: -mapPolygon.visualLongitude },
-        { property: 'deltaLatitude', to: -mapPolygon.visualLatitude },
-      ],
-      1000,
-    );
-    animation.events.on('animationended', () => {
-      this.mapChart.zoomToMapObject(mapPolygon, this.getZoomLevel(mapPolygon));
-    });
-  }
-
-  getZoomLevel(mapPolygon) {
-    const w = mapPolygon.polygon.bbox.width;
-    const h = mapPolygon.polygon.bbox.width;
-    // change 2 to smaller walue for a more close zoom
-    return Math.min(this.mapChart.seriesWidth / (w * 2), this.mapChart.seriesHeight / (h * 2));
-  }
-
   updateSeriesTooltip() {
     if (this.currentDate === undefined) return;
     let position = this.dateAxis.dateToPosition(this.currentDate);
@@ -395,15 +374,6 @@ export default class CovidMap {
         image.dataItem.dataContext.name = mapPolygon.dataItem.dataContext.name;
         image.isHover = true;
       }
-    }
-  }
-
-  rollOutCountry(mapPolygon) {
-    const image = this.bubbleSeries.getImageById(mapPolygon.dataItem.id);
-
-    this.resetHover();
-    if (image) {
-      image.isHover = false;
     }
   }
 
@@ -556,7 +526,7 @@ export default class CovidMap {
     this.chartAndSliderContainer.background = new am4core.RoundedRectangle();
     this.chartAndSliderContainer.background.fill = am4core.color('#000000');
     this.chartAndSliderContainer.background.cornerRadius(30, 30, 0, 0);
-    this.chartAndSliderContainer.background.fillOpacity = 0.25;
+    this.chartAndSliderContainer.background.fillOpacity = 0.5;
     this.chartAndSliderContainer.paddingTop = 12;
     this.chartAndSliderContainer.paddingBottom = 0;
 
@@ -570,7 +540,7 @@ export default class CovidMap {
     this.slider.width = am4core.percent(100);
     this.slider.valign = 'middle';
     this.slider.background.opacity = 0.4;
-    this.slider.opacity = 0.1;
+    this.slider.opacity = 1;
     this.slider.background.fill = am4core.color('#ffffff');
     this.slider.marginLeft = 20;
     this.slider.marginRight = 35;
@@ -692,13 +662,13 @@ export default class CovidMap {
 
   createBottomChart() {
     this.lineChart = this.chartAndSliderContainer.createChild(am4charts.XYChart);
-    this.lineChart.fontSize = '0.8em';
+    this.lineChart.fontSize = '1.3em';
     this.lineChart.paddingRight = 30;
     this.lineChart.paddingLeft = 30;
     this.lineChart.maskBullets = false;
     this.lineChart.zoomOutButton.disabled = true;
     this.lineChart.paddingBottom = 5;
-    this.lineChart.paddingTop = 3;
+    this.lineChart.paddingTop = 15;
     this.lineChart.data = JSON.parse(JSON.stringify(this.covidData));
   }
 
@@ -873,7 +843,7 @@ export default class CovidMap {
     series.tooltip.getFillFromObject = false;
     series.tooltip.background.fillOpacity = 0.2;
     series.tooltip.background.fill = am4core.color('#000000');
-    series.tooltip.fontSize = '0.8em';
+    series.tooltip.fontSize = '1.1em';
     series.tooltipText = "{name}: {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
 
     return series;
