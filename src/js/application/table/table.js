@@ -68,7 +68,16 @@ export default class Table {
 
     this.createCards(this.totalCases, this.global);
 
-    this.AppInstance.rightCol.append(this.tableTitle, controls, this.cardsContainer);
+    const backBtn = new ElementBuilder('button', 'back-btn');
+    backBtn.element.innerText = 'Back to global';
+
+    backBtn.on('click', () => {
+      this.tableTitle.element.innerText = 'global';
+      this.createCards(this.getCurrentCategory(), this.global);
+      this.AppInstance.countries.input.element.value = '';
+    });
+
+    this.AppInstance.rightCol.append(this.tableTitle, controls, this.cardsContainer, backBtn);
   }
 
   createCards(cardsMap, data) {
