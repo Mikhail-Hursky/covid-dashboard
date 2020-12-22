@@ -14,13 +14,14 @@ export default class App {
     App.exists = true;
     this.p1 = this.instance.api.getGlobalCovidData();
     this.p2 = this.instance.api.getCovidDataByCountries();
+    this.p3 = this.instance.api.getCoordinates();
     this.init();
   }
 
   init() {
-    Promise.all([this.p1, this.p2]).then(data => {
-      console.log(data);
+    Promise.all([this.p1, this.p2, this.p3]).then(data => {
       this.dataCountries = data;
+      this.dataCordinat = data[2];
       this.renderPage();
       this.preload.removePreload();
       this.startApp();

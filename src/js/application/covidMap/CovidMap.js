@@ -7,11 +7,8 @@ import am4ThemesAnimated from '@amcharts/amcharts4/themes/animated';
 export default class CovidMap {
   constructor(instance) {
     this.AppInstance = instance;
-    this.container = this.AppInstance.centerCol;
-    this.AppInstance.api.getCoordinates().then(r => {
-      this.covidData = r;
-      this.createMap();
-    });
+    this.covidData = instance.dataCordinat.slice();
+    this.createMap();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -54,9 +51,10 @@ export default class CovidMap {
         this.updateTotals(this.currentIndex);
       });
       // set initial data and names
+
       this.updateCountryName();
       this.changeDataType('active');
-      setTimeout(this.updateSeriesTooltip, 3000);
+      this.updateSeriesTooltip();
     });
   }
 
@@ -66,7 +64,7 @@ export default class CovidMap {
     this.backgroundColor = am4core.color('#322923'); // bullets at chart
     this.activeColor = am4core.color('#963821');
     this.confirmedColor = am4core.color('#307fe2');
-    this.recoveredColor = am4core.color('#058200');
+    this.recoveredColor = am4core.color('#84bd00');
     this.deathsColor = am4core.color('#dc4405');
 
     // for an easier access by key
@@ -905,7 +903,7 @@ export default class CovidMap {
     series.dataFields.valueY = name;
     series.dataFields.dateX = 'date';
     series.name = this.capitalizeFirstLetter(name);
-    series.strokeOpacity = 0.6;
+    series.strokeOpacity = 0.1;
     series.stroke = color;
     series.fill = color;
     series.maskBullets = false;
@@ -940,9 +938,9 @@ export default class CovidMap {
     this.label = this.lineChart.plotContainer.createChild(am4core.Label);
     this.label.text = 'Current day stats may be incomplete until countries submit their data.';
     this.label.fill = am4core.color('#ffffff');
-    this.label.fontSize = '0.8em';
+    this.label.fontSize = '1.7em';
     this.label.paddingBottom = 4;
-    this.label.opacity = 0.5;
+    this.label.opacity = 1;
     this.label.align = 'right';
     this.label.horizontalCenter = 'right';
     this.label.verticalCenter = 'bottom';
@@ -1006,7 +1004,7 @@ export default class CovidMap {
     }
 
     // eslint-disable-next-line max-len
-    this.bubbleSeries.mapImages.template.tooltipText = `[bold]{name}: {value}[/] [font-size:10px]\n${this.currentTypeName}`;
+    this.bubbleSeries.mapImages.template.tooltipText = `[bold font-size:20px]{name}: {value}[/] [font-size:20px]\n${this.currentTypeName}`;
 
     // make button active
     const activeButton = this.buttons[name];
