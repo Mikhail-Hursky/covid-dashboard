@@ -36,6 +36,8 @@ export default class Table {
   }
 
   init() {
+    this.AppInstance.addFullSreenToggle(this.AppInstance.rightCol);
+
     this.tableTitle.element.innerText = 'global';
 
     const controls = new ElementBuilder('div', 'controls');

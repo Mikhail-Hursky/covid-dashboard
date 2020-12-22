@@ -1,6 +1,7 @@
 @import './preload';
 @import './fonts';
 @import './variables';
+@import './fullscreen';
 @import './leftCol';
 @import './centerCol';
 @import './rightCol';
@@ -29,7 +30,7 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 0;
   background: $colorPrimary;
 
   h1 {
@@ -43,11 +44,8 @@ header {
 }
 
 main {
-  height: calc(100vh - 102px);
+  height: calc(100vh - 90px);
   display: flex;
-  column-gap: 2rem;
-  padding: 0 2rem 1.5rem;
-  background: $colorPrimary;
 }
 
 footer {
@@ -84,21 +82,4 @@ footer {
     flex-direction: column;
     align-items: center;
   }
-}
-
-.fullscreen-btn {
-  position: absolute;
-  right: -2rem;
-  top: -2rem;
-  padding: 0.6em;
-  background: #f9f9f9;
-  border: none;
-  border-radius: 50%;
-  outline: none;
-  transition: all 0.25s ease-in;
-  cursor: pointer;
-}
-
-.fullscreen-btn:hover {
-  transform: scale(1.2);
 }

@@ -1,7 +1,14 @@
 .right-col {
+  position: relative;
   // min-width: 20rem;
-  width: 22rem;
+  width: 24rem;
   @include flex-col();
+  padding: 3rem 2rem 1.5rem;
+  background: $colorPrimary;
+
+  .fullscreen-btn {
+    right: 6px;
+  }
 
   .title {
     @include header2();
@@ -62,11 +69,14 @@
   }
 
   .cards {
-    @include flex-col();
-    min-width: 200px;
-    max-width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 2rem;
+    row-gap: 2rem;
+    justify-content: center;
 
     .card {
+      width: 24rem;
       padding: 1.5rem;
       background: $colorLight-s;
       border-radius: 12px;

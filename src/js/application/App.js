@@ -87,17 +87,29 @@ export default class App {
     const fullScreenBtn = new ElementBuilder('button', 'fullscreen-btn');
     fullScreenBtn.element.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
 
-    fullScreenBtn.on('click', () => this.toggleFullScreen(elem));
+    fullScreenBtn.on('click', e => this.toggleFullScreen(e, elem));
 
     elem.append(fullScreenBtn);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  toggleFullScreen(elem) {
+  toggleFullScreen(e, elem) {
     if (!document.fullscreenElement) {
       elem.element.requestFullscreen();
+
+      if (e.target.tagName === 'BUTTON') {
+        e.target.firstElementChild.className = 'fas fa-compress-arrows-alt';
+      } else {
+        e.target.className = 'fas fa-compress-arrows-alt';
+      }
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
+
+      if (e.target.tagName === 'BUTTON') {
+        e.target.firstElementChild.className = 'fas fa-expand-arrows-alt';
+      } else {
+        e.target.className = 'fas fa-expand-arrows-alt';
+      }
     }
   }
 }

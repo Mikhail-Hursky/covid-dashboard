@@ -3,6 +3,8 @@
   @include flex-col;
   // min-width: 26rem;
   width: 32rem;
+  padding: 3rem 2rem 1.5rem;
+  background: $colorPrimary;
 
   .search {
     display: flex;
