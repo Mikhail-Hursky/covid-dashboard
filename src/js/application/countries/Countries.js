@@ -131,7 +131,7 @@ export default class Countries {
       let numOfCases = item[this.currentCategory];
       if (this.currentIndex >= this.keys.length / 2) {
         const per100k = 100000 / item.population;
-        numOfCases = Math.round(numOfCases * per100k);
+        numOfCases = Math.ceil(numOfCases * per100k);
       }
       data.element.textContent = numberWithCommas(numOfCases);
 

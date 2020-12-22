@@ -83,15 +83,10 @@ export default class Table {
     this.cardsContainer.removeChildren();
 
     cardsMap.forEach((value, key) => {
-      let cases;
       const cardElement = new ElementBuilder('div', 'card');
 
-      if (this.isGlobal()) {
-        cases = this.isPer100k ? '' : data[value];
-      } else {
-        const per100k = 100000 / data.population;
-        cases = this.isPer100k ? Math.round(data[value] * per100k) : data[value];
-      }
+      const per100k = 100000 / data.population;
+      const cases = this.isPer100k ? Math.ceil(data[value] * per100k) : data[value];
 
       cardElement.element.insertAdjacentHTML(
         'afterbegin',
