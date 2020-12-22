@@ -110,6 +110,8 @@ export default class Countries {
   }
 
   displayCountries(countries) {
+    this.countriesList.removeChildren();
+
     const color = this.chooseColor();
 
     this.sortList(countries);
@@ -176,8 +178,6 @@ export default class Countries {
         menu.classList.remove('change');
         current.remove();
 
-        this.countriesList.removeChildren();
-
         if (this.input.element.value) {
           this.displayCountries(this.matches);
         } else {
@@ -212,8 +212,6 @@ export default class Countries {
     this.matches = this.countries.filter(item => {
       return item.country.toLowerCase().includes(value.toLowerCase());
     });
-
-    this.countriesList.removeChildren();
 
     if (this.matches.length) {
       this.displayCountries(this.matches);

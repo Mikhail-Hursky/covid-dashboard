@@ -1,7 +1,10 @@
 .center-col {
-  flex-grow: 2;
+  width: 55%;
+  min-width: 50rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 3rem 0rem 1.5rem;
   z-index: 2;
+  background: $colorPrimary;
 }

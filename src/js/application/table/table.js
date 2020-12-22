@@ -36,6 +36,8 @@ export default class Table {
   }
 
   init() {
+    this.AppInstance.addFullSreenToggle(this.AppInstance.rightCol);
+
     this.tableTitle.element.innerText = 'global';
 
     const controls = new ElementBuilder('div', 'controls');
@@ -66,7 +68,17 @@ export default class Table {
 
     this.createCards(this.totalCases, this.global);
 
-    this.AppInstance.rightCol.append(this.tableTitle, controls, this.cardsContainer);
+    const backBtn = new ElementBuilder('button', 'back-btn');
+    backBtn.element.innerText = 'Back to global';
+
+    backBtn.on('click', () => {
+      this.tableTitle.element.innerText = 'global';
+      this.createCards(this.getCurrentCategory(), this.global);
+      this.AppInstance.countries.displayCountries(this.countries);
+      this.AppInstance.countries.input.element.value = '';
+    });
+
+    this.AppInstance.rightCol.append(this.tableTitle, controls, this.cardsContainer, backBtn);
   }
 
   createCards(cardsMap, data) {

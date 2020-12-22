@@ -1,7 +1,15 @@
 .right-col {
-  // min-width: 20rem;
-  width: 22rem;
+  position: relative;
+  width: 20%;
+  min-width: 24rem;
   @include flex-col();
+  align-items: center;
+  padding: 3rem 2rem 1.5rem;
+  background: $colorPrimary;
+
+  .fullscreen-btn {
+    right: 6px;
+  }
 
   .title {
     @include header2();
@@ -62,11 +70,15 @@
   }
 
   .cards {
-    @include flex-col();
-    min-width: 200px;
-    max-width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 2rem;
+    row-gap: 2rem;
+    justify-content: center;
 
     .card {
+      min-width: 22rem;
+      max-width: 24rem;
       padding: 1.5rem;
       background: $colorLight-s;
       border-radius: 12px;
@@ -94,6 +106,23 @@
 
     .card:last-child .card__value {
       color: $green;
+    }
+  }
+
+  .back-btn {
+    padding: 0.6rem 1rem;
+    @include header4();
+    color: $colorAccent;
+    background: none;
+    border-radius: 24px;
+    border: 2px solid #963821;
+    outline: none;
+    transition: all 0.3s ease-in;
+
+    &:hover {
+      color: $colorLight-s;
+      background: $colorAccent;
+      cursor: pointer;
     }
   }
 }

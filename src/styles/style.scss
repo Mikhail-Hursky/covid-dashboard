@@ -1,6 +1,7 @@
 @import './preload';
 @import './fonts';
 @import './variables';
+@import './fullscreen';
 @import './leftCol';
 @import './centerCol';
 @import './rightCol';
@@ -22,14 +23,13 @@ body {
   justify-content: space-between;
   row-gap: 0;
   width: 100%;
-  height: 100vh;
   background: $colorPrimary;
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 0;
   background: $colorPrimary;
 
   h1 {
@@ -43,11 +43,7 @@ header {
 }
 
 main {
-  height: calc(100vh - 102px);
   display: flex;
-  column-gap: 2rem;
-  padding: 0 2rem 1.5rem;
-  background: $colorPrimary;
 }
 
 footer {
@@ -86,19 +82,27 @@ footer {
   }
 }
 
-.fullscreen-btn {
-  position: absolute;
-  right: -2rem;
-  top: -2rem;
-  padding: 0.6em;
-  background: #f9f9f9;
-  border: none;
-  border-radius: 50%;
-  outline: none;
-  transition: all 0.25s ease-in;
-  cursor: pointer;
-}
+@media (max-width: 1000px) {
+  main {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
 
-.fullscreen-btn:hover {
-  transform: scale(1.2);
+  .left-col {
+    order: 1;
+    width: 40%;
+    height: 62rem;
+  }
+
+  .right-col {
+    order: 2;
+    width: 30%;
+  }
+
+  .center-col {
+    order: 3;
+    width: 90%;
+    height: 80vw;
+    min-height: 76rem;
+  }
 }
