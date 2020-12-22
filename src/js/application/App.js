@@ -82,4 +82,22 @@ export default class App {
 
     return this;
   }
+
+  addFullSreenToggle(elem) {
+    const fullScreenBtn = new ElementBuilder('button', 'fullscreen-btn');
+    fullScreenBtn.element.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+
+    fullScreenBtn.on('click', () => this.toggleFullScreen(elem));
+
+    elem.append(fullScreenBtn);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  toggleFullScreen(elem) {
+    if (!document.fullscreenElement) {
+      elem.element.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
 }

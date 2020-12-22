@@ -85,3 +85,20 @@ footer {
     align-items: center;
   }
 }
+
+.fullscreen-btn {
+  position: absolute;
+  right: -2rem;
+  top: -2rem;
+  padding: 0.6em;
+  background: #f9f9f9;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  transition: all 0.25s ease-in;
+  cursor: pointer;
+}
+
+.fullscreen-btn:hover {
+  transform: scale(1.2);
+}

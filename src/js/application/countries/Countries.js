@@ -47,6 +47,7 @@ export default class Countries {
   }
 
   init() {
+    this.AppInstance.addFullSreenToggle(this.container);
     this.createSearchBar();
     this.createSelect();
     this.displayCountries(this.countries);

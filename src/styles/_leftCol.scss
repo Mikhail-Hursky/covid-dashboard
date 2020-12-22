@@ -1,4 +1,5 @@
 .left-col {
+  position: relative;
   @include flex-col;
   // min-width: 26rem;
   width: 32rem;
