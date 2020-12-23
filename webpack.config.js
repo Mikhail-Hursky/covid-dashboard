@@ -8,7 +8,7 @@ const prod = 'production';
 const dev = 'development';
 
 module.exports = {
-  mode: dev,
+  mode: prod,
   entry: {
     main: path.resolve(__dirname, './src/js/index.js'),
   },

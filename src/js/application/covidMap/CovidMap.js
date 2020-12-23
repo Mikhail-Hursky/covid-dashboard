@@ -673,7 +673,7 @@ export default class CovidMap {
     this.dateAxis.renderer.grid.template.stroke = am4core.color('#000000');
     this.dateAxis.renderer.grid.template.strokeOpacity = 0.25;
     this.dateAxis.max = this.lastDate.getTime() + am4core.time.getDuration('day', 5);
-    this.dateAxis.tooltip.label.fontSize = '0.8em';
+    this.dateAxis.tooltip.label.fontSize = '1.5em';
     this.dateAxis.tooltip.background.fill = this.activeColor;
     this.dateAxis.tooltip.background.stroke = this.activeColor;
     this.dateAxis.renderer.labels.template.fill = am4core.color('#ffffff');
@@ -729,7 +729,7 @@ export default class CovidMap {
     this.lineChart.legend.labels.template.fill = am4core.color('#ffffff');
     this.lineChart.legend.markers.template.height = 8;
     this.lineChart.legend.contentAlign = 'left';
-    this.lineChart.legend.fontSize = '16px';
+    this.lineChart.legend.fontSize = '28px';
     this.lineChart.legend.itemContainers.template.valign = 'middle';
 
     this.seriesTypeSwitch = this.lineChart.legend.createChild(am4core.SwitchButton);
@@ -884,7 +884,7 @@ export default class CovidMap {
     series.tooltip.background.fillOpacity = 0.2;
     series.tooltip.background.fill = am4core.color('#000000');
     series.tooltip.dy = -4;
-    series.tooltip.fontSize = '0.8em';
+    series.tooltip.fontSize = '2em';
     series.tooltipText = 'Total {name}: {valueY}';
     return series;
   }
