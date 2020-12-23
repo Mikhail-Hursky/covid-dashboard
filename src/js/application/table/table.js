@@ -86,7 +86,7 @@ export default class Table {
       const cardElement = new ElementBuilder('div', 'card');
 
       const { population } = data;
-      cases = this.isPer100k ? casesPer100k(data[value], population) : data[value];
+      const cases = this.isPer100k ? casesPer100k(data[value], population) : data[value];
 
       cardElement.element.insertAdjacentHTML(
         'afterbegin',
