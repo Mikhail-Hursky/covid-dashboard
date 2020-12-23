@@ -129,8 +129,6 @@ export default class Table {
       // no default
     }
 
-    console.log(cases);
-
     this.createCards(this[cardsMap], cases);
   }
 
