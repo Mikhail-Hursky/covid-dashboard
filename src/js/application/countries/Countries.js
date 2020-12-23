@@ -1,5 +1,5 @@
 import ElementBuilder from '../utils/ElementBuilder';
-import numberWithCommas from '../utils/Numbers';
+import { numberWithCommas, findMatches, casesPer100k } from '../utils/helpers';
 import Keyboard from '../virtual-keyboard/keyboard';
 import keysOrder from '../virtual-keyboard/keysOrder';
 
@@ -130,8 +130,8 @@ export default class Countries {
 
       let numOfCases = item[this.currentCategory];
       if (this.currentIndex >= this.keys.length / 2) {
-        const per100k = 100000 / item.population;
-        numOfCases = Math.round(numOfCases * per100k);
+        const { population } = item;
+        numOfCases = casesPer100k(numOfCases, population);
       }
       data.element.textContent = numberWithCommas(numOfCases);
 
@@ -208,9 +208,8 @@ export default class Countries {
 
   displayMatches() {
     const { value } = this.input.element;
-    this.matches = this.countries.filter(item => {
-      return item.country.toLowerCase().includes(value.toLowerCase());
-    });
+
+    this.matches = findMatches(this.countries, value);
 
     if (this.matches.length) {
       this.displayCountries(this.matches);

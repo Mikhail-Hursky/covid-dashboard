@@ -3,6 +3,7 @@ import * as am4charts from '@amcharts/amcharts4/charts';
 import * as am4maps from '@amcharts/amcharts4/maps';
 import am4GeoDataWorldLow from '@amcharts/amcharts4-geodata/worldLow';
 import am4ThemesAnimated from '@amcharts/amcharts4/themes/animated';
+import { capitalizeFirstLetter } from '../utils/helpers';
 
 export default class CovidMap {
   constructor(instance) {
@@ -339,18 +340,13 @@ export default class CovidMap {
       this.buttonsKey.forEach(key => {
         const count = Number(this.lineChart.data[index][key]);
         if (!Number.isNaN(count)) {
-          this.buttons[key].label.text = `${this.capitalizeFirstLetter(
+          this.buttons[key].label.text = `${capitalizeFirstLetter(
             key,
           )}: ${this.numberFormatter.format(count, '#,###')}`;
         }
       });
       this.currentIndex = index;
     }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   rotateAndZoom(mapPolygon) {
@@ -859,7 +855,7 @@ export default class CovidMap {
     series.dataFields.valueY = name;
     series.dataFields.valueYShow = 'previousChange';
     series.dataFields.dateX = 'date';
-    series.name = this.capitalizeFirstLetter(name);
+    series.name = capitalizeFirstLetter(name);
     series.hidden = true;
     series.stroke = color;
     series.fill = color;
@@ -904,7 +900,7 @@ export default class CovidMap {
     const series = this.lineChart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = name;
     series.dataFields.dateX = 'date';
-    series.name = this.capitalizeFirstLetter(name);
+    series.name = capitalizeFirstLetter(name);
     series.strokeOpacity = 0.6;
     series.stroke = color;
     series.fill = color;

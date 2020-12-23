@@ -1,5 +1,5 @@
 import ElementBuilder from '../utils/ElementBuilder';
-import numberWithCommas from '../utils/Numbers';
+import { numberWithCommas, casesPer100k } from '../utils/helpers';
 
 export default class Table {
   constructor(instance, api) {
@@ -89,8 +89,8 @@ export default class Table {
       if (this.isGlobal()) {
         cases = this.isPer100k ? '' : data[value];
       } else {
-        const per100k = 100000 / data.population;
-        cases = this.isPer100k ? Math.round(data[value] * per100k) : data[value];
+        const { population } = data;
+        cases = this.isPer100k ? casesPer100k(data[value], population) : data[value];
       }
 
       cardElement.element.insertAdjacentHTML(

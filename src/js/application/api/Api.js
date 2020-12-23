@@ -29,16 +29,16 @@ export default class Api {
     return false;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getCoordinates() {
     try {
-      const responce = await fetch(
+      const response = await fetch(
         'https://raw.githubusercontent.com/amcharts/covid-charts/master/data/json/world_timeline.json',
       );
-      const data = await responce.json();
+      const data = await response.json();
       return data;
     } catch (e) {
-      throw new Error(e);
+      this.AppInstance.preload.errorServer();
     }
+    return false;
   }
 }
