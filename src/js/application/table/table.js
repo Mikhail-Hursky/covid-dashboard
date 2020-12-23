@@ -74,6 +74,7 @@ export default class Table {
       this.createCards(this.getCurrentCategory(), this.global);
       this.AppInstance.countries.displayCountries(this.countries);
       this.AppInstance.countries.input.element.value = '';
+      this.AppInstance.covidMap.showWorld();
     });
 
     this.AppInstance.rightCol.append(this.tableTitle, controls, this.cardsContainer, backBtn);
