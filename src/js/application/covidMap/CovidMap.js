@@ -9,6 +9,7 @@ export default class CovidMap {
   constructor(instance) {
     this.AppInstance = instance;
     this.covidData = instance.dataCordinat.slice();
+    this.table = false;
     this.createMap();
   }
 
@@ -255,6 +256,11 @@ export default class CovidMap {
   }
 
   showWorld() {
+    if (this.table) {
+      this.AppInstance.table.pressBackBtn();
+      this.AppInstance.countries.input.element.value = '';
+    }
+    this.AppInstance.countries.displayMatches();
     this.currentCountry = 'World';
     this.currentPolygon = undefined;
     this.resetHover();

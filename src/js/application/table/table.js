@@ -32,6 +32,7 @@ export default class Table {
     this.casesForCountry = null;
     this.cardsContainer = new ElementBuilder('div', 'cards');
     this.tableTitle = new ElementBuilder('div', 'title');
+    this.AppInstance.covidMap.table = true;
     this.init();
   }
 
@@ -70,14 +71,18 @@ export default class Table {
     backBtn.element.innerText = 'Back to global';
 
     backBtn.on('click', () => {
-      this.tableTitle.element.innerText = 'global';
-      this.createCards(this.getCurrentCategory(), this.global);
-      this.AppInstance.countries.displayCountries(this.countries);
-      this.AppInstance.countries.input.element.value = '';
+      this.pressBackBtn();
       this.AppInstance.covidMap.showWorld();
     });
 
     this.AppInstance.rightCol.append(this.tableTitle, controls, this.cardsContainer, backBtn);
+  }
+
+  pressBackBtn() {
+    this.tableTitle.element.innerText = 'global';
+    this.createCards(this.getCurrentCategory(), this.global);
+    this.AppInstance.countries.displayCountries(this.countries);
+    this.AppInstance.countries.input.element.value = '';
   }
 
   createCards(cardsMap, data) {
