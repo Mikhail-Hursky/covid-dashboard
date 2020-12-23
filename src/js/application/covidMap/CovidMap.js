@@ -237,16 +237,6 @@ export default class CovidMap {
   selectCountry(mapPolygon) {
     this.resetHover();
     this.polygonSeries.hideTooltip();
-
-    // if the same country is clicked show world
-    if (this.currentPolygon === mapPolygon) {
-      this.currentPolygon.isActive = false;
-      this.currentPolygon = undefined;
-      this.showWorld();
-      return;
-    }
-    // save current polygon
-    this.currentPolygon = mapPolygon;
     const countryIndex = this.countryIndexMap[mapPolygon.dataItem.id];
     this.currentCountry = mapPolygon.dataItem.dataContext.name;
 
@@ -302,7 +292,9 @@ export default class CovidMap {
       const di = this.covidData[i].list;
 
       let countryData = di[countryIndex];
-      if (this.currentCountry === 'World') countryData = di[di.length - 1];
+      if (this.currentCountry === 'World' && countryIndex === 0) {
+        countryData = di[di.length - 1];
+      }
       const dataContext = this.lineChart.data[i];
       if (countryData) {
         dataContext.recovered = countryData.recovered;
