@@ -55,6 +55,7 @@ export default class CovidMap {
       this.updateCountryName();
       this.changeDataType('active');
       this.updateSeriesTooltip();
+      this.AppInstance.addFullSreenToggle(this.AppInstance.centerCol);
     });
   }
 
