@@ -123,7 +123,6 @@ export default class Keyboard {
       }
 
       if (code === 'Enter') {
-        console.log(code, event);
         this.page.submit(event);
         return;
       }
@@ -248,6 +247,7 @@ export default class Keyboard {
     this.isRecording = !this.isRecording;
 
     if (this.isRecording) {
+      // eslint-disable-next-line no-undef
       this.recognition = new SpeechRecognition();
       this.recognition.interimResults = false;
       this.recognition.lang = 'en';

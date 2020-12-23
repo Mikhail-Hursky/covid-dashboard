@@ -202,8 +202,10 @@ export default class Countries {
     if (!countryData) {
       return;
     }
-
     this.AppInstance.table.getSelectedCountry(country, countryData);
+    this.AppInstance.covidMap.selectCountry(
+      this.AppInstance.covidMap.polygonSeries.getPolygonById(countryData.countryInfo.iso2),
+    );
   }
 
   displayMatches() {

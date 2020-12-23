@@ -83,15 +83,10 @@ export default class Table {
     this.cardsContainer.removeChildren();
 
     cardsMap.forEach((value, key) => {
-      let cases;
       const cardElement = new ElementBuilder('div', 'card');
 
-      if (this.isGlobal()) {
-        cases = this.isPer100k ? '' : data[value];
-      } else {
-        const { population } = data;
-        cases = this.isPer100k ? casesPer100k(data[value], population) : data[value];
-      }
+      const { population } = data;
+      cases = this.isPer100k ? casesPer100k(data[value], population) : data[value];
 
       cardElement.element.insertAdjacentHTML(
         'afterbegin',
@@ -142,6 +137,9 @@ export default class Table {
 
     this.tableTitle.element.innerText = country;
     this.createCards(this.getCurrentCategory(), this.casesForCountry);
+    this.AppInstance.covidMap.selectCountry(
+      this.AppInstance.covidMap.polygonSeries.getPolygonById(this.casesForCountry.countryInfo.iso2),
+    );
   }
 
   getCurrentCategory() {

@@ -8,11 +8,8 @@ import { capitalizeFirstLetter } from '../utils/helpers';
 export default class CovidMap {
   constructor(instance) {
     this.AppInstance = instance;
-    this.container = this.AppInstance.centerCol;
-    this.AppInstance.api.getCoordinates().then(r => {
-      this.covidData = r;
-      this.createMap();
-    });
+    this.covidData = instance.dataCordinat.slice();
+    this.createMap();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -54,10 +51,10 @@ export default class CovidMap {
         this.lineChart.cursor.hide();
         this.updateTotals(this.currentIndex);
       });
-      // set initial data and names
+
       this.updateCountryName();
       this.changeDataType('active');
-      setTimeout(this.updateSeriesTooltip, 3000);
+      this.updateSeriesTooltip();
     });
   }
 
@@ -67,7 +64,7 @@ export default class CovidMap {
     this.backgroundColor = am4core.color('#322923'); // bullets at chart
     this.activeColor = am4core.color('#963821');
     this.confirmedColor = am4core.color('#307fe2');
-    this.recoveredColor = am4core.color('#058200');
+    this.recoveredColor = am4core.color('#00ff29');
     this.deathsColor = am4core.color('#dc4405');
 
     // for an easier access by key
@@ -349,27 +346,6 @@ export default class CovidMap {
     }
   }
 
-  rotateAndZoom(mapPolygon) {
-    this.polygonSeries.hideTooltip();
-    const animation = this.mapChart.animate(
-      [
-        { property: 'deltaLongitude', to: -mapPolygon.visualLongitude },
-        { property: 'deltaLatitude', to: -mapPolygon.visualLatitude },
-      ],
-      1000,
-    );
-    animation.events.on('animationended', () => {
-      this.mapChart.zoomToMapObject(mapPolygon, this.getZoomLevel(mapPolygon));
-    });
-  }
-
-  getZoomLevel(mapPolygon) {
-    const w = mapPolygon.polygon.bbox.width;
-    const h = mapPolygon.polygon.bbox.width;
-    // change 2 to smaller walue for a more close zoom
-    return Math.min(this.mapChart.seriesWidth / (w * 2), this.mapChart.seriesHeight / (h * 2));
-  }
-
   updateSeriesTooltip() {
     if (this.currentDate === undefined) return;
     let position = this.dateAxis.dateToPosition(this.currentDate);
@@ -394,15 +370,6 @@ export default class CovidMap {
         image.dataItem.dataContext.name = mapPolygon.dataItem.dataContext.name;
         image.isHover = true;
       }
-    }
-  }
-
-  rollOutCountry(mapPolygon) {
-    const image = this.bubbleSeries.getImageById(mapPolygon.dataItem.id);
-
-    this.resetHover();
-    if (image) {
-      image.isHover = false;
     }
   }
 
@@ -478,8 +445,8 @@ export default class CovidMap {
     this.bubbleSeries.heatRules.push({
       target: this.circle,
       property: 'radius',
-      min: 3,
-      max: 30,
+      min: 6,
+      max: 24,
       dataField: 'value',
     });
 
@@ -555,7 +522,7 @@ export default class CovidMap {
     this.chartAndSliderContainer.background = new am4core.RoundedRectangle();
     this.chartAndSliderContainer.background.fill = am4core.color('#000000');
     this.chartAndSliderContainer.background.cornerRadius(30, 30, 0, 0);
-    this.chartAndSliderContainer.background.fillOpacity = 0.25;
+    this.chartAndSliderContainer.background.fillOpacity = 0.5;
     this.chartAndSliderContainer.paddingTop = 12;
     this.chartAndSliderContainer.paddingBottom = 0;
 
@@ -569,7 +536,7 @@ export default class CovidMap {
     this.slider.width = am4core.percent(100);
     this.slider.valign = 'middle';
     this.slider.background.opacity = 0.4;
-    this.slider.opacity = 0.1;
+    this.slider.opacity = 1;
     this.slider.background.fill = am4core.color('#ffffff');
     this.slider.marginLeft = 20;
     this.slider.marginRight = 35;
@@ -691,13 +658,13 @@ export default class CovidMap {
 
   createBottomChart() {
     this.lineChart = this.chartAndSliderContainer.createChild(am4charts.XYChart);
-    this.lineChart.fontSize = '0.8em';
+    this.lineChart.fontSize = '1.3em';
     this.lineChart.paddingRight = 30;
     this.lineChart.paddingLeft = 30;
     this.lineChart.maskBullets = false;
     this.lineChart.zoomOutButton.disabled = true;
     this.lineChart.paddingBottom = 5;
-    this.lineChart.paddingTop = 3;
+    this.lineChart.paddingTop = 15;
     this.lineChart.data = JSON.parse(JSON.stringify(this.covidData));
   }
 
@@ -872,7 +839,7 @@ export default class CovidMap {
     series.tooltip.getFillFromObject = false;
     series.tooltip.background.fillOpacity = 0.2;
     series.tooltip.background.fill = am4core.color('#000000');
-    series.tooltip.fontSize = '0.8em';
+    series.tooltip.fontSize = '1.1em';
     series.tooltipText = "{name}: {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
 
     return series;
@@ -901,7 +868,7 @@ export default class CovidMap {
     series.dataFields.valueY = name;
     series.dataFields.dateX = 'date';
     series.name = capitalizeFirstLetter(name);
-    series.strokeOpacity = 0.6;
+    series.strokeOpacity = 1;
     series.stroke = color;
     series.fill = color;
     series.maskBullets = false;
@@ -936,9 +903,9 @@ export default class CovidMap {
     this.label = this.lineChart.plotContainer.createChild(am4core.Label);
     this.label.text = 'Current day stats may be incomplete until countries submit their data.';
     this.label.fill = am4core.color('#ffffff');
-    this.label.fontSize = '0.8em';
+    this.label.fontSize = '1.7em';
     this.label.paddingBottom = 4;
-    this.label.opacity = 0.5;
+    this.label.opacity = 1;
     this.label.align = 'right';
     this.label.horizontalCenter = 'right';
     this.label.verticalCenter = 'bottom';
@@ -1002,7 +969,7 @@ export default class CovidMap {
     }
 
     // eslint-disable-next-line max-len
-    this.bubbleSeries.mapImages.template.tooltipText = `[bold]{name}: {value}[/] [font-size:10px]\n${this.currentTypeName}`;
+    this.bubbleSeries.mapImages.template.tooltipText = `[bold font-size:20px]{name}: {value}[/] [font-size:20px]\n${this.currentTypeName}`;
 
     // make button active
     const activeButton = this.buttons[name];
