@@ -65,7 +65,7 @@ export default class Countries {
       this.AppInstance.table.getSelectedCountry(selectedCountry.toLowerCase());
       /* this.AppInstance.covidMap.selectCountry(
         this.AppInstance.covidMap.polygonSeries.getPolygonById(СЮДА.countryInfo.iso2),
-      );*/
+      ); */
     });
   }
 

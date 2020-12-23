@@ -15,11 +15,30 @@ export default class CovidMap {
   // eslint-disable-next-line class-methods-use-this
   createMap() {
     const arrCountries = this.AppInstance.dataCountries[1];
+    let world = 0;
     let str = '';
     arrCountries.forEach(el => {
+      world += el.population;
       str += `"${el.countryInfo.iso2}":${el.population},`;
     });
+    str += `"world":${world},`;
     this.population = JSON.parse(`{${str.substring(0, str.length - 1)}}`);
+    for (let i = 0; i < this.covidData.length; i++) {
+      const worldCases = {
+        active: 0,
+        confirmed: 0,
+        deaths: 0,
+        id: 'World',
+        recovered: 0,
+      };
+      for (let j = 0; j < this.covidData[i].list.length; j++) {
+        worldCases.active += this.covidData[i].list[j].active;
+        worldCases.confirmed += this.covidData[i].list[j].confirmed;
+        worldCases.deaths += this.covidData[i].list[j].deaths;
+        worldCases.recovered += this.covidData[i].list[j].recovered;
+      }
+      this.covidData[i].list.push(worldCases);
+    }
     am4core.useTheme(am4ThemesAnimated);
     am4core.ready(() => {
       this.prepareDta();
@@ -55,6 +74,7 @@ export default class CovidMap {
       this.updateCountryName();
       this.changeDataType('active');
       this.updateSeriesTooltip();
+      this.showWorld();
       this.AppInstance.addFullSreenToggle(this.AppInstance.centerCol);
     });
   }
@@ -237,9 +257,7 @@ export default class CovidMap {
     if (this.countryDataTimeout) {
       clearTimeout(this.countryDataTimeout);
     }
-    this.countryDataTimeout = setTimeout(() => {
-      this.setCountryData(countryIndex);
-    }, 1000);
+    this.setCountryData(countryIndex);
     this.updateTotals(this.currentIndex);
     this.updateCountryName();
     mapPolygon.isActive = true;
@@ -256,22 +274,8 @@ export default class CovidMap {
     });
 
     this.updateCountryName();
-
-    // update line chart data (again, modifying instead of setting new data for a nice animation)
-    for (let i = 0; i < this.lineChart.data.length; i++) {
-      const di = this.covidData[i];
-      const dataContext = this.lineChart.data[i];
-
-      dataContext.recovered = di.recovered;
-      dataContext.confirmed = di.confirmed;
-      dataContext.deaths = di.deaths;
-      dataContext.active = di.confirmed - di.recovered;
-      this.valueAxis.min = undefined;
-      this.valueAxis.max = undefined;
-    }
-
+    this.setCountryData(0);
     this.lineChart.invalidateRawData();
-
     this.updateTotals(this.currentIndex);
     this.mapChart.goHome();
   }
@@ -296,7 +300,8 @@ export default class CovidMap {
     for (let i = 0; i < this.lineChart.data.length; i++) {
       const di = this.covidData[i].list;
 
-      const countryData = di[countryIndex];
+      let countryData = di[countryIndex];
+      if (this.currentCountry === 'World') countryData = di[di.length - 1];
       const dataContext = this.lineChart.data[i];
       if (countryData) {
         dataContext.recovered = countryData.recovered;
