@@ -1,5 +1,5 @@
 import ElementBuilder from '../utils/ElementBuilder';
-import numberWithCommas from '../utils/Numbers';
+import { numberWithCommas, casesPer100k } from '../utils/helpers';
 
 export default class Table {
   constructor(instance, api) {
@@ -85,8 +85,8 @@ export default class Table {
     cardsMap.forEach((value, key) => {
       const cardElement = new ElementBuilder('div', 'card');
 
-      const per100k = 100000 / data.population;
-      const cases = this.isPer100k ? Math.ceil(data[value] * per100k) : data[value];
+      const { population } = data;
+      cases = this.isPer100k ? casesPer100k(data[value], population) : data[value];
 
       cardElement.element.insertAdjacentHTML(
         'afterbegin',
