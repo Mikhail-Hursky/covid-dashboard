@@ -733,15 +733,6 @@ export default class CovidMap {
     this.lineChart.legend.contentAlign = 'left';
     this.lineChart.legend.fontSize = '16px';
     this.lineChart.legend.itemContainers.template.valign = 'middle';
-    this.legendDown = false;
-    this.lineChart.legend.itemContainers.template.events.on('down', () => {
-      this.legendDown = true;
-    });
-    this.lineChart.legend.itemContainers.template.events.on('up', () => {
-      setTimeout(() => {
-        this.legendDown = false;
-      }, 100);
-    });
 
     this.seriesTypeSwitch = this.lineChart.legend.createChild(am4core.SwitchButton);
     this.seriesTypeSwitch.leftLabel.text = 'totals';
