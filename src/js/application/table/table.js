@@ -109,6 +109,10 @@ export default class Table {
   modifyTable(attr) {
     let cardsMap;
 
+    this.casesForCountry = this.countries.find(item => {
+      return item.country.toLowerCase() === this.tableTitle.element.innerText.toLowerCase();
+    });
+
     const cases = this.isGlobal() ? this.global : this.casesForCountry;
 
     switch (attr) {
@@ -124,6 +128,8 @@ export default class Table {
         break;
       // no default
     }
+
+    console.log(cases);
 
     this.createCards(this[cardsMap], cases);
   }
