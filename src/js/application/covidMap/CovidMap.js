@@ -214,6 +214,7 @@ export default class CovidMap {
     this.polygonTemplate.tooltipPosition = 'fixed';
 
     this.polygonTemplate.events.on('hit', e => {
+      this.AppInstance.table.preGetSelectedCountry(e.target.dataItem.id);
       this.selectCountry(this.polygonSeries.getPolygonById(e.target.dataItem.id));
     });
     this.polygonTemplate.events.on('over', e => {

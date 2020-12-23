@@ -126,19 +126,21 @@ export default class Table {
     return this.tableTitle.element.innerText.toLowerCase() === 'global';
   }
 
-  getSelectedCountry(country, countryObj) {
-    if (countryObj === undefined) {
-      this.casesForCountry = this.countries.find(item => {
-        return item.country.toLowerCase() === country;
-      });
-    } else {
-      this.casesForCountry = countryObj;
+  preGetSelectedCountry(code) {
+    const data = this.countries.find(item => item.countryInfo.iso2 === code);
+    if (data) {
+      this.getSelectedCountry(data);
+      this.AppInstance.countries.input.element.value = data.country;
+      this.AppInstance.countries.displayMatches();
     }
+  }
 
-    this.tableTitle.element.innerText = country;
-    this.createCards(this.getCurrentCategory(), this.casesForCountry);
+  getSelectedCountry(countryObj) {
+    this.tableTitle.element.innerText = countryObj.country;
+    this.createCards(this.getCurrentCategory(), countryObj);
+
     this.AppInstance.covidMap.selectCountry(
-      this.AppInstance.covidMap.polygonSeries.getPolygonById(this.casesForCountry.countryInfo.iso2),
+      this.AppInstance.covidMap.polygonSeries.getPolygonById(countryObj.countryInfo.iso2),
     );
   }
 
