@@ -62,10 +62,9 @@ export default class Countries {
       this.input.element.value = selectedCountry;
       this.displayMatches();
 
-      this.AppInstance.table.getSelectedCountry(selectedCountry.toLowerCase());
-      /* this.AppInstance.covidMap.selectCountry(
-        this.AppInstance.covidMap.polygonSeries.getPolygonById(СЮДА.countryInfo.iso2),
-      );*/
+      const countryData = this.getCountryData(selectedCountry);
+
+      this.AppInstance.table.getSelectedCountry(countryData);
     });
   }
 
@@ -200,15 +199,12 @@ export default class Countries {
       country = event.target.children[0].value.toLowerCase();
     }
 
-    const countryData = this.countries.find(item => item.country.toLowerCase() === country);
+    const countryData = this.getCountryData(country);
 
     if (!countryData) {
       return;
     }
-    this.AppInstance.table.getSelectedCountry(country, countryData);
-    this.AppInstance.covidMap.selectCountry(
-      this.AppInstance.covidMap.polygonSeries.getPolygonById(countryData.countryInfo.iso2),
-    );
+    this.AppInstance.table.getSelectedCountry(countryData);
   }
 
   displayMatches() {
@@ -221,5 +217,9 @@ export default class Countries {
     } else {
       this.countriesList.element.innerHTML = countryNotFound;
     }
+  }
+
+  getCountryData(countryName) {
+    return this.countries.find(item => item.country.toLowerCase() === countryName.toLowerCase());
   }
 }
