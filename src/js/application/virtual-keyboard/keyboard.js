@@ -21,7 +21,7 @@ export default class Keyboard {
   init() {
     this.keyboardLayout = en;
 
-    this.keysContainer = new ElementBuilder('div', 'keyboard keyboard--hidden');
+    this.keysContainer = new ElementBuilder('div', 'keyboard keyboard_hidden');
 
     this.keysContainer.appendToBody();
 
@@ -55,12 +55,12 @@ export default class Keyboard {
 
   open() {
     this.isKeyboardOpen = true;
-    this.keysContainer.element.classList.remove('keyboard--hidden');
+    this.keysContainer.element.classList.remove('keyboard_hidden');
   }
 
   close() {
     this.isKeyboardOpen = false;
-    this.keysContainer.element.classList.add('keyboard--hidden');
+    this.keysContainer.element.classList.add('keyboard_hidden');
     this.textarea.blur();
   }
 
@@ -99,15 +99,18 @@ export default class Keyboard {
       pressedKeyObj.keyContainer.element.classList.add('active');
 
       if (code.match(/Shift/)) {
-        if (type === 'keydown') {
-          this.isShift = true;
-        } else if (type === 'mousedown') {
-          if (!this.isShift) {
+        switch (type) {
+          case 'keydown':
             this.isShift = true;
-          } else {
-            this.isShift = false;
-            pressedKeyObj.keyContainer.element.classList.remove('active');
-          }
+            break;
+          case 'mousedown':
+            if (!this.isShift) {
+              this.isShift = true;
+            } else {
+              this.isShift = false;
+              pressedKeyObj.keyContainer.element.classList.remove('active');
+            }
+            break;
         }
         this.switchUpperCase();
       }
@@ -134,7 +137,7 @@ export default class Keyboard {
 
       if (!this.isCaps) {
         this.print(pressedKeyObj, this.isShift ? pressedKeyObj.shift : pressedKeyObj.small);
-      } else if (this.isCaps) {
+      } else {
         if (this.isShift) {
           this.print(
             pressedKeyObj,
@@ -171,18 +174,18 @@ export default class Keyboard {
         if (this.isShift) {
           button.subst.element.classList.add('sub-active');
           button.letter.element.classList.add('sub-inactive');
-        } else if (!this.isShift) {
+        } else {
           button.subst.element.classList.remove('sub-active');
           button.letter.element.classList.remove('sub-inactive');
         }
-      } else if (!button.subst.element.innerHTML) {
+      } else {
         if (this.isCaps) {
           if (this.isShift) {
             button.letter.element.innerHTML = button.small;
           } else {
             button.letter.element.innerHTML = button.shift;
           }
-        } else if (!this.isCaps) {
+        } else {
           if (this.isShift) {
             button.letter.element.innerHTML = button.shift;
           } else {

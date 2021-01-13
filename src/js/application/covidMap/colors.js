@@ -1,0 +1,12 @@
+export const backgroundColor = '#322923';
+export const activeColor = '#963821';
+export const confirmedColor = '#307FE2';
+export const recoveredColor = '#00FF29';
+export const deathsColor = '#DC4405';
+export const countryColor = '#B9975B';
+export const countryStrokeColor = '#DDCBA4';
+export const buttonStrokeColor = '#322923';
+export const countryHoverColor = '#322923';
+export const activeCountryColor = '#816637';
+export const black = '#000000';
+export const white = '#FFFFFF';

@@ -9,7 +9,6 @@ export default class Api {
     try {
       const response = await fetch('https://corona.lmao.ninja/v2/countries');
       const data = await response.json();
-      if (data.Message === 'Caching in progress') throw new Error('Caching in progress');
       return data;
     } catch (e) {
       this.AppInstance.preload.errorServer();
@@ -21,7 +20,6 @@ export default class Api {
     try {
       const response = await fetch('https://disease.sh/v3/covid-19/all');
       const data = await response.json();
-      if (data.Message === 'Caching in progress') throw new Error('Caching in progress');
       return data;
     } catch (e) {
       this.AppInstance.preload.errorServer();

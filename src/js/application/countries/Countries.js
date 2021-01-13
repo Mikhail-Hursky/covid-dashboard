@@ -149,10 +149,13 @@ export default class Countries {
   }
 
   chooseColor() {
-    if (this.currentCategory.includes('cases')) {
+    const casesRegex = new RegExp('cases', 'gi');
+    const deathsRegex = new RegExp('deaths', 'gi');
+
+    if (this.currentCategory.match(casesRegex)) {
       return 'blue';
     }
-    if (this.currentCategory.includes('deaths')) {
+    if (this.currentCategory.match(deathsRegex)) {
       return 'red';
     }
     return 'green';
